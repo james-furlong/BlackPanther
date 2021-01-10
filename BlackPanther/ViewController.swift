@@ -9,6 +9,8 @@ import Cocoa
 import WebKit
 
 class ViewController: NSViewController {
+    private let leagueId: String = "4416"
+    
     var playerArray: [NRLPlayer] = []
     var teamArray: [NRLTeam] = []
 
@@ -24,6 +26,72 @@ class ViewController: NSViewController {
         }
     }
     
+    
+    @IBAction func fixtureButtonTapped(_ sender: Any) {
+        let Url = String(format: "https://www.thesportsdb.com/api/v1/json/1/eventsseason.php?id=\(leagueId)&s=2021")
+            guard let serviceUrl = URL(string: Url) else { return }
+//            let parameters: [String: Any] = [
+//                "request": [
+//                        "xusercode" : "YOUR USERCODE HERE",
+//                        "xpassword": "YOUR PASSWORD HERE"
+//                ]
+//            ]
+            var request = URLRequest(url: serviceUrl)
+            request.httpMethod = "GET"
+            request.setValue("Application/json", forHTTPHeaderField: "Content-Type")
+//            guard let httpBody = try? JSONSerialization.data(withJSONObject: parameters, options: []) else {
+//                return
+//            }
+//            request.httpBody = httpBody
+            request.timeoutInterval = 20
+            let session = URLSession.shared
+            session.dataTask(with: request) { (data, response, error) in
+                if let response = response {
+                    print(response)
+                }
+                if let data = data {
+                    do {
+                        let json = try JSONSerialization.jsonObject(with: data, options: [])
+                        let fixture = try JSONDecoder().decode(FixtureResponse.self, from: data)
+                        print(fixture)
+                    } catch {
+                        print(error)
+                    }
+                }
+            }.resume()
+        
+//        if let baseGETURL = URL(string: "https://www.thesportsdb.com/api/v1/json/1/eventsseason.php?id=\(leagueId)&s=2021") {
+//            self.fetch(requestURL: baseGETURL, requestType: "GET", parameter: nil) { result in
+//                switch result {
+//                    case .success(_):
+//                        print(response)
+//                        do {
+//                            let decoder = JSONDecoder()
+//                            if let jsonData = result.data {
+//
+//                            }
+//                        } catch {
+//                            // TODO: Log error
+//                        }
+//                    case .failure(let error):
+//                        print("ERROR: \(error)")
+//                }
+//            }
+//        }
+        
+        
+//        if let baseGETURL = URL(string:"https://postman-echo.com/get?foo1=bar1&foo2=bar2"){
+//                    self.fetch(requestURL: baseGETURL, requestType: "GET", parameter: nil) { (result) in
+//                              switch result{
+//                              case .success(let response) :
+//                                print("Hello World \(response)")
+//                              case .failure(let error) :
+//                                print("Hello World \(error)")
+//
+//                              }
+//                          }
+//                }
+    }
     
     @IBAction func buttonTapped(_ sender: Any) {
         for team in NRLTeam.allCases {
@@ -80,6 +148,69 @@ class ViewController: NSViewController {
             task.resume()
         }
     }
+    
+//    func call<T>(type: EndPointType, params: Parameters? = nil, handler: @escaping (Swift.Result<T, Error>) -> Void) where T: Codable {
+//        self.sessionManager.request(type.url,
+//            method: type.httpMethod,
+//            parameters: params,
+//            encoding: type.encoding,
+//            headers: type.headers).validate().responseJSON { (data) in
+//                do {
+//                    guard let jsonData = data.data else {
+//                        throw AlertMessage(title: "Error", body: "No data")
+//                    }
+//                    let result = try JSONDecoder().decode(T.self, from: jsonData)
+//                    handler(.success(result))
+//                    self.resetNumberOfRetries()
+//                } catch {
+//                    return handler(.failure(error))
+//                }
+//            }
+//    }
+    
+    func fetch(requestURL:URL,requestType:String,parameter:[String:AnyObject]?,completion:@escaping (Result<Any, Error>) -> () ){
+            //Check internet connection as per your convenience
+            //Check URL whitespace validation as per your convenience
+            //Show Hud
+            var urlRequest = URLRequest.init(url: requestURL)
+            urlRequest.cachePolicy = .reloadIgnoringLocalCacheData
+            urlRequest.timeoutInterval = 60
+            urlRequest.httpMethod = String(describing: requestType)
+            urlRequest.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+            urlRequest.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Accept")
+            
+            //Post URL parameters set as URL body
+            if let params = parameter{
+                do {
+                    let parameterData = try JSONSerialization.data(withJSONObject:params, options:.prettyPrinted)
+                    urlRequest.httpBody = parameterData
+                } catch {
+                   //Hide hude and return error
+                    completion(.failure(error))
+                }
+            }
+            //URL Task to get data
+            URLSession.shared.dataTask(with: requestURL) { (data, response, error) in
+                //Hide Hud
+                //fail completion for Error
+                if let objError = error{
+                    completion(.failure(objError))
+                }
+                //Validate for blank data and URL response status code
+                if let objData = data,let objURLResponse = response as? HTTPURLResponse{
+                    //We have data validate for JSON and convert in JSON
+                    do {
+                        let objResposeJSON = try JSONSerialization.jsonObject(with: objData, options: .mutableContainers)
+                        //Check for valid status code 200 else fail with error
+                        if objURLResponse.statusCode == 200{
+                            completion(.success(objResposeJSON))
+                        }
+                    } catch {
+                        completion(.failure(error))
+                    }
+                }
+            }.resume()
+        }
     
     private func pushUpPlayerInfo() {
         // TODO: Complete this
