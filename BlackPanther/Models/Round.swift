@@ -24,4 +24,24 @@ struct Round: Codable {
     let strSeason: String?// = 2021;
     let strTime: String?// = "07:05:00";
     let strTimeLocal: String?// = "7:05:00";
+    
+    var startDateTime: Date? {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        guard let date = self.dateEvent else { return nil }
+        guard let time = self.strTime else { return nil }
+        let dateTimeString: String = "\(date) \(time)"
+        
+        return formatter.date(from: dateTimeString) ?? nil
+    }
+    
+    var startDateTimeLocal: Date? {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        guard let date = self.dateEventLocal else { return nil }
+        guard let time = self.strTimeLocal else { return nil }
+        let dateTimeString: String = "\(date) \(time)"
+        
+        return formatter.date(from: dateTimeString) ?? nil
+    }
 }
