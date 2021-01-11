@@ -9,21 +9,67 @@ import Cocoa
 import WebKit
 
 class ViewController: NSViewController {
+    @IBOutlet weak var playerIndicatorBar: NSProgressIndicator!
+    @IBOutlet weak var fixtureIndicatorBar: NSProgressIndicator!
+    @IBOutlet weak var fixtureYearTextField: NSTextField?
+    
+    private let leagueId: String = "4416"
+    
     var playerArray: [NRLPlayer] = []
     var teamArray: [NRLTeam] = []
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
-
-    override var representedObject: Any? {
-        didSet {
-        // Update the view, if already loaded.
-        }
-    }
+    var roundResultArray: [RoundResultResponse] = []
+    var fixtureYear: String = ""
     
+    // MARK: - Actions
+    
+    @IBAction func fixtureButtonTapped(_ sender: Any) {
+        DispatchQueue.main.async {
+            self.fixtureIndicatorBar.doubleValue = 0.0
+        }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy"
+        let year: String = (fixtureYearTextField?.objectValue ?? formatter.string(from: Date())) as! String
+        let Url = String(format: "https://www.thesportsdb.com/api/v1/json/1/eventsseason.php?id=\(leagueId)&s=\(year)")
+        guard let serviceUrl = URL(string: Url) else { return }
+        var request = URLRequest(url: serviceUrl)
+        request.httpMethod = "GET"
+        request.setValue("Application/json", forHTTPHeaderField: "Content-Type")
+        request.timeoutInterval = 20
+        let session = URLSession.shared
+        session.dataTask(with: request) { (data, response, error) in
+            if let response = response {
+                print(response)
+            }
+            if let data = data {
+                do {
+                    let fixture = try JSONDecoder().decode(FixtureResponse.self, from: data)
+                    self.pushUpFixtureInformation(fixture)
+                    // Fixture is old so get the results
+                    if year != formatter.string(from: Date()) {
+                        for round in fixture.events {
+                            DispatchQueue.main.async {
+                                self.fixtureIndicatorBar.increment(by: 100.0 / Double(fixture.events.count))
+                            }
+                            guard let id = round.idEvent else { continue }
+                            self.getCompletedRound(id) { result in
+                                self.roundResultArray.append(result)
+                                if self.roundResultArray.count == fixture.events.count {
+                                    self.pushUpRoundResults()
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        DispatchQueue.main.async {
+                            self.fixtureIndicatorBar.doubleValue = 100.0
+                        }
+                    }
+                } catch {
+                    print(error)
+                }
+            }
+        }.resume()
+    }
     
     @IBAction func buttonTapped(_ sender: Any) {
         for team in NRLTeam.allCases {
@@ -62,6 +108,9 @@ class ViewController: NSViewController {
                                     self.playerArray.append(player)
                                 }
                             }
+                            DispatchQueue.main.async {
+                                self.playerIndicatorBar.increment(by: 100 / 16)
+                            }
                         } catch {
                             // TODO: Log error
                         }
@@ -81,8 +130,41 @@ class ViewController: NSViewController {
         }
     }
     
+    // MARK: - Internal functions
+    
+    private func getCompletedRound(_ eventId: String, completion: @escaping (RoundResultResponse) -> (Void)) {
+        let url = URL(string: "https://www.thesportsdb.com/api/v1/json/1/eventresults.php?id=\(eventId)")
+        var request = URLRequest(url: url!)
+        request.httpMethod = "GET"
+        request.setValue("Application/json", forHTTPHeaderField: "Content-Type")
+        request.timeoutInterval = 20
+        let session = URLSession.shared
+        session.dataTask(with: request) { (data, response, error) in
+            if let response = response {
+                print(response)
+            }
+            if let data = data {
+                do {
+                    let result = try JSONDecoder().decode(RoundResultResponse.self, from: data)
+                    completion(result)
+                } catch {
+                    print(error)
+                }
+            }
+        }.resume()
+    }
+    
     private func pushUpPlayerInfo() {
         // TODO: Complete this
+    }
+    
+    private func pushUpFixtureInformation(_ fixture: FixtureResponse) {
+        // TODO: Complete this
+    }
+    
+    private func pushUpRoundResults() {
+        // TODO: complete this
+        self.roundResultArray = []
     }
 }
 
