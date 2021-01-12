@@ -13,6 +13,9 @@ protocol ApiClientProtocols {
     // NRL
     func getNrlFixture(leagueId: String, year: String, completion: @escaping (NRLFixtureResponse?) -> ())
     func getNrlPlayers(completion: @escaping ([NRLPlayer]) -> ())
+    
+    // BigBash
+    func getBigBashFixture(year: String, completion: @escaping (BigBashFixture?) -> ())
 }
 
 extension Result where Success == Data {
@@ -29,8 +32,6 @@ class ApiClient: ApiClientProtocols {
     // MARK: - NRL
     
     func getNrlFixture(leagueId: String, year: String, completion: @escaping (NRLFixtureResponse?) -> ()) {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy"
         let url = String(format: "https://www.thesportsdb.com/api/v1/json/1/eventsseason.php?id=\(leagueId)&s=\(year)")
         get(from: url) { result in
             do {
@@ -93,6 +94,21 @@ class ApiClient: ApiClientProtocols {
                 if containsAllTeams {
                     completion(playerArray)
                 }
+            }
+        }
+    }
+    
+    // MARK: - Big Bash League
+    
+    func getBigBashFixture(year: String, completion: @escaping (BigBashFixture?) -> ()) {
+        let url = String(format: "https://cricket.yahoo.net/sifeeds/multisport/?methodtype=3&client=24&sport=1&league=0&timezone=0530&language=en&tournament=1638")
+        get(from: url) { result in
+            do {
+                let fixture = try result.decoded() as BigBashFixture
+                completion(fixture)
+            } catch {
+                print(error)
+                completion(nil)
             }
         }
     }

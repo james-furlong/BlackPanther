@@ -7,6 +7,8 @@
 
 import Foundation
 
-struct NRLFixtureResponse: Codable {
+protocol Fixture { }
+
+struct NRLFixtureResponse: Codable, Fixture {
     let events: [Round]
 }

@@ -25,7 +25,7 @@ class ViewController: NSViewController {
     var teamArray: [NRLTeam] = []
     var roundResultArray: [RoundResultResponse] = []
     var fixtureYear: String = ""
-    var fixture: NRLFixtureResponse? = nil
+    var fixture: Fixture? = nil
     
     // MARK: - Actions
     
@@ -55,37 +55,41 @@ class ViewController: NSViewController {
                 self.apiClient.getNrlFixture(leagueId: currentSport.leagueId, year: year) { fixture in
                     self.fixture = fixture
                 }
+            case .BigBashCricket:
+                self.apiClient.getBigBashFixture(year: year) { fixture in
+                    self.fixture = fixture
+                }
             default: self.fixture = nil
         }
     }
     
     @IBAction func resultButtonTapped(_ sender: Any) {
-        let round = self.resultRoundTextField.objectValue as? String
-        let gameString = self.resultGameTextField.objectValue as? String
-        guard let game = Int(gameString ?? "") else {
-            return
-        }
-        
-        if let fixture = self.fixture {
-            var round = fixture.events
-                .filter { $0.intRound == round }
-            round.sort { $0.startDateTime! < $1.startDateTime! }
-            guard let matchId = round[game - 1].idEvent else { return }
-//            let Url = String(format: "https://www.thesportsdb.com/api/v1/json/1/eventresults.php?id=\(matchId)")
-            let Url = String(format: "https://www.thesportsdb.com/api/v1/json/1/lookupevent.php?id=\(matchId)")
-            guard let serviceUrl = URL(string: Url) else { return }
-            var request = URLRequest(url: serviceUrl)
-            request.httpMethod = "GET"
-            request.setValue("Application/json", forHTTPHeaderField: "Content-Type")
-            request.timeoutInterval = 20
-            let session = URLSession.shared
-            session.dataTask(with: request) { (data, response, error) in
-                if let data = data {
-                    print(String(data: data, encoding: .utf8))
-                }
-            }
-            .resume()
-        }
+//        let round = self.resultRoundTextField.objectValue as? String
+//        let gameString = self.resultGameTextField.objectValue as? String
+//        guard let game = Int(gameString ?? "") else {
+//            return
+//        }
+//
+//        if let fixture = self.fixture {
+//            var round = fixture.events
+//                .filter { $0.intRound == round }
+//            round.sort { $0.startDateTime! < $1.startDateTime! }
+//            guard let matchId = round[game - 1].idEvent else { return }
+////            let Url = String(format: "https://www.thesportsdb.com/api/v1/json/1/eventresults.php?id=\(matchId)")
+//            let Url = String(format: "https://www.thesportsdb.com/api/v1/json/1/lookupevent.php?id=\(matchId)")
+//            guard let serviceUrl = URL(string: Url) else { return }
+//            var request = URLRequest(url: serviceUrl)
+//            request.httpMethod = "GET"
+//            request.setValue("Application/json", forHTTPHeaderField: "Content-Type")
+//            request.timeoutInterval = 20
+//            let session = URLSession.shared
+//            session.dataTask(with: request) { (data, response, error) in
+//                if let data = data {
+//                    print(String(data: data, encoding: .utf8))
+//                }
+//            }
+//            .resume()
+//        }
     }
     
     // MARK: - Internal functions
