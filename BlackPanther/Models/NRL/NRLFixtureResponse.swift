@@ -10,5 +10,5 @@ import Foundation
 protocol Fixture { }
 
 struct NRLFixtureResponse: Codable, Fixture {
-    let events: [Round]
+    let events: [NRLRound]
 }

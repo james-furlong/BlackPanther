@@ -23,7 +23,7 @@ class ViewController: NSViewController {
     
     var playerArray: [NRLPlayer] = []
     var teamArray: [NRLTeam] = []
-    var roundResultArray: [RoundResultResponse] = []
+    var resultsArray: [RoundResult] = []
     var fixtureYear: String = ""
     var fixture: Fixture? = nil
     
@@ -61,9 +61,23 @@ class ViewController: NSViewController {
                 }
             default: self.fixture = nil
         }
+        DispatchQueue.main.async {
+            self.fixtureIndicatorBar.doubleValue = 100.0
+        }
     }
     
     @IBAction func resultButtonTapped(_ sender: Any) {
+        DispatchQueue.main.async {
+            self.resultIndicatorBar.doubleValue = 0.0
+        }
+        switch currentSport {                
+            case .BigBashCricket:
+                guard let fixture = self.fixture as? BigBashFixture else { return }
+                self.apiClient.getBigBashResults(fixture: fixture) { results in
+                    self.resultsArray = results ?? []
+                }
+            default: self.resultsArray = []
+        }
 //        let round = self.resultRoundTextField.objectValue as? String
 //        let gameString = self.resultGameTextField.objectValue as? String
 //        guard let game = Int(gameString ?? "") else {
@@ -126,7 +140,7 @@ class ViewController: NSViewController {
     
     private func pushUpRoundResults() {
         // TODO: complete this
-        self.roundResultArray = []
+        self.resultsArray = []
     }
     
     private func displayError(_ message: String) {

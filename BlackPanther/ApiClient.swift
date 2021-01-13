@@ -16,6 +16,7 @@ protocol ApiClientProtocols {
     
     // BigBash
     func getBigBashFixture(year: String, completion: @escaping (BigBashFixture?) -> ())
+    func getBigBashResults(fixture: BigBashFixture, completion: @escaping ([BigBashResult]?) -> ())
 }
 
 extension Result where Success == Data {
@@ -109,6 +110,37 @@ class ApiClient: ApiClientProtocols {
             } catch {
                 print(error)
                 completion(nil)
+            }
+        }
+    }
+    
+    func getBigBashResults(fixture: BigBashFixture, completion: @escaping ([BigBashResult]?) -> ()) {
+        var results: [BigBashResult] = []
+        var resultCount: Int = 0
+        var rounds = fixture.matches
+        rounds.sort { (one, two) in
+            guard let oneStart = one.startDateTime else { return false }
+            guard let twoStart = two.startDateTime else { return false }
+            
+            return oneStart < twoStart
+        }
+        for round in rounds {
+            resultCount += 1
+            if (round.matchStatus == .Completed) {
+                let url: String = "https://cricket.yahoo.net/sifeeds/cricket/live/json/\(round.game_id).json"
+                get(from: url) { result in
+                    do {
+                        print(result)
+                        let result = try result.decoded() as BigBashResult
+                        results.append(result)
+                    } catch {
+                        print(error)
+                        completion(nil)
+                    }
+                }
+                if resultCount == rounds.count {
+                    completion(results)
+                }
             }
         }
     }

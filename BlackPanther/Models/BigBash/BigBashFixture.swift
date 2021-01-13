@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct BigBashFixture: Codable, Fixture {
+struct BigBashFixture: Decodable, Fixture {
     let matches: [BigBashGame]
 }
