@@ -61,26 +61,6 @@ struct BigBashMatchDetail: Codable {
     }
 }
 
-struct BigBashOfficials: Codable {
-    let umpires: String
-    let referee: String
-    
-    enum CodingKeys: String, CodingKey {
-        case umpires = "Umpires"
-        case referee = "Referee"
-    }
-}
-
-struct BigBashVenue: Codable {
-    let id: String
-    let name: String
-    
-    enum CodingKeys: String, CodingKey {
-        case id = "Id"
-        case name = "Name"
-    }
-}
-
 struct BigBashSeries: Codable {
     let id: String
     let name: String
@@ -102,20 +82,6 @@ struct BigBashSeries: Codable {
         case status = "Status"
         case tour = "Tour"
         case tourName = "Tour_name"
-    }
-}
-
-struct BigBashMatchAwards: Codable {
-    let playerId: String
-    let playerName: String
-    let teamId: String
-    let awardType: Int
-    
-    enum CodingKeys: String, CodingKey {
-        case playerId = "Player_Id"
-        case playerName = "Player_Name"
-        case teamId = "Team_Id"
-        case awardType = "Award_Type"
     }
 }
 

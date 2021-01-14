@@ -69,30 +69,66 @@ struct BigBashPlayer: Decodable {
     }
 }
 
-struct BigBashBatting: Codable {
-    let style: String
-    let average: String
-    let strikeRate: String
+struct BigBashBatsman: Codable {
+    let batsman: String
     let runs: String
+    let balls: String
+    let fours: String?
+    let sixes: String?
+    let dots: String?
+    let strikeRate: String?
+    let dismissal: String?
+    let howOut: String?
+    let bowler: String?
+    let fielder: String?
+    let runScoredInLastBalls: BigBashRunScoredBalls?
+    let number: Int?
+    let dismissalType: String?
+    let dismissalId: String?
     
     enum CodingKeys: String, CodingKey {
-        case style = "Style"
-        case average = "Average"
-        case strikeRate = "Strikerate"
+        case batsman = "Batsman"
         case runs = "Runs"
+        case balls = "Balls"
+        case fours = "Fours"
+        case sixes = "Sixes"
+        case dots = "Dots"
+        case strikeRate = "Strikerate"
+        case dismissal = "Dismissal"
+        case howOut = "Howout"
+        case bowler = "Bowler"
+        case fielder = "Fielder"
+        case runScoredInLastBalls = "RunScoredInLastBalls"
+        case number = "Number"
+        case dismissalType = "DismissalType"
+        case dismissalId = "DismissalId"
     }
 }
 
-struct BigBashBowling: Codable {
-    let style: String
-    let average: String
+struct BigBashBowler: Codable {
+    let bowler: String
+    let overs: String
+    let maidens: String
+    let runs: String
+    let wickets: String
     let economyRate: String
-    let runs: String?
+    let noBalls: String
+    let wides: String
+    let dots: String
+    let runGivenInLastBalls: BigBashRunScoredBalls
+    let number: Int
     
     enum CodingKeys: String, CodingKey {
-        case style = "Style"
-        case average = "Average"
-        case economyRate = "Economyrate"
+        case bowler = "Bowler"
+        case overs = "Overs"
+        case maidens = "Maidens"
         case runs = "Runs"
+        case wickets = "Wickets"
+        case economyRate = "Economyrate"
+        case noBalls = "Noballs"
+        case wides = "Wides"
+        case dots = "Dots"
+        case runGivenInLastBalls = "RungivenInLastBalls"
+        case number = "Number"
     }
 }

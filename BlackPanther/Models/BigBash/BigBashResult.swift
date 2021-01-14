@@ -29,14 +29,3 @@ struct BigBashResult: Decodable, RoundResult {
     }
 }
 
-struct BigBashNugget: Codable {
-    
-}
-
-struct BigBashNotes: Codable {
-
-}
-
-struct BigBashSubstitute: Codable {
-    
-}
