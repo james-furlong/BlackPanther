@@ -54,6 +54,6 @@ struct BigBashTeam: Decodable {
         nameShort = try container.decode(String.self, forKey: CodingKeys.nameShort)
         players = try container.decode(BigBashPlayerResponse.self, forKey: .players)
         
-        teamId = container.codingPath.first!.stringValue
+        teamId = container.codingPath.last!.stringValue
     }
 }

@@ -65,7 +65,7 @@ struct BigBashPlayer: Decodable {
         batting = try container.decode(BigBashBatting.self, forKey: .batting)
         bowling = try container.decode(BigBashBowling.self, forKey: .bowling)
         
-        playerId = container.codingPath.first!.stringValue
+        playerId = container.codingPath.last!.stringValue
     }
 }
 

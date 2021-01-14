@@ -124,21 +124,21 @@ class ApiClient: ApiClientProtocols {
             
             return oneStart < twoStart
         }
-        for round in rounds {
-            resultCount += 1
-            if (round.matchStatus == .Completed) {
-                let url: String = "https://cricket.yahoo.net/sifeeds/cricket/live/json/\(round.game_id).json"
-                get(from: url) { result in
-                    do {
-                        print(result)
-                        let result = try result.decoded() as BigBashResult
-                        results.append(result)
-                    } catch {
-                        print(error)
-                        completion(nil)
-                    }
+        let completedRounds = rounds.filter { $0.matchStatus == .Completed }
+        for round in completedRounds {
+            let url: String = "https://cricket.yahoo.net/sifeeds/cricket/live/json/\(round.game_id).json"
+            get(from: url) { result in
+                resultCount += 1
+                do {
+                    print(result)
+                    let result = try result.decoded() as BigBashResult
+                    results.append(result)
+                } catch {
+                    print(error)
+                    completion(nil)
                 }
-                if resultCount == rounds.count {
+                
+                if resultCount == completedRounds.count {
                     completion(results)
                 }
             }
