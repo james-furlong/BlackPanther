@@ -11,7 +11,7 @@ import WebKit
 protocol ApiClientProtocols {
     
     // NRL
-    func getNrlFixture(leagueId: String, year: String, completion: @escaping (NRLFixtureResponse?) -> ())
+    func getNrlFixture(year: String, completion: @escaping ([NRLRound]?) -> ())
     func getNrlPlayers(completion: @escaping ([NRLPlayer]) -> ())
     
     // BigBash
@@ -32,13 +32,14 @@ class ApiClient: ApiClientProtocols {
     
     // MARK: - NRL
     
-    func getNrlFixture(leagueId: String, year: String, completion: @escaping (NRLFixtureResponse?) -> ()) {
-        let url = String(format: "https://www.thesportsdb.com/api/v1/json/1/eventsseason.php?id=\(leagueId)&s=\(year)")
+    func getNrlFixture(year: String, completion: @escaping ([NRLRound]?) -> ()) {
+        let url = String(format: "https://wwos-services.nine.com.au/fixture/nrl/scheduled/3/\(year)?limit=400")
         get(from: url) { result in
             do {
-                let fixture = try result.decoded() as NRLFixtureResponse
+                let fixture = try result.decoded() as [NRLRound]
                 completion(fixture)
             } catch {
+                print(error)
                 completion(nil)
             }
         }

@@ -134,6 +134,7 @@
 		6054A33C25AA4EE900CF1F83 /* BlackPanther */ = {
 			isa = PBXGroup;
 			children = (
+				6063D64A25B00370004CEEEB /* Networking */,
 				6063D5E225AD509A004CEEEB /* Enums */,
 				6063D5B225AB6DC7004CEEEB /* Extensions */,
 				6054A36F25AA533300CF1F83 /* Models */,
@@ -143,8 +144,6 @@
 				6054A34325AA4EE900CF1F83 /* Main.storyboard */,
 				6054A34625AA4EE900CF1F83 /* Info.plist */,
 				6054A34725AA4EE900CF1F83 /* BlackPanther.entitlements */,
-				6063D5D325AD4D84004CEEEB /* ApiClient.swift */,
-				6063D5ED25AD5681004CEEEB /* NetworkError.swift */,
 			);
 			path = BlackPanther;
 			sourceTree = "<group>";
@@ -219,6 +218,15 @@
 				6063D63F25AFFEBA004CEEEB /* BigBashSmallModels.swift */,
 			);
 			path = BigBash;
+			sourceTree = "<group>";
+		};
+		6063D64A25B00370004CEEEB /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				6063D5D325AD4D84004CEEEB /* ApiClient.swift */,
+				6063D5ED25AD5681004CEEEB /* NetworkError.swift */,
+			);
+			path = Networking;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

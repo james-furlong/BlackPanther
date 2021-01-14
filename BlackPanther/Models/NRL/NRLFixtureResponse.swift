@@ -9,6 +9,28 @@ import Foundation
 
 protocol Fixture { }
 
-struct NRLFixtureResponse: Codable, Fixture {
-    let events: [NRLRound]
+struct NRLFixtureResponse: Decodable, Fixture {
+    let rounds: [NRLRound]
+    
+    private struct DynamicDecodingKeys: CodingKey {
+        var stringValue: String
+        init?(stringValue: String) {
+            self.stringValue = stringValue
+        }
+        
+        var intValue: Int?
+        init?(intValue: Int) {
+            return nil
+        }
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: DynamicDecodingKeys.self)
+        var tempArray = [NRLRound]()
+        for key in container.allKeys {
+            let decodedObject = try container.decode(NRLRound.self, forKey: DynamicDecodingKeys(stringValue: key.stringValue)!)
+            tempArray.append(decodedObject)
+        }
+        rounds = tempArray
+    }
 }

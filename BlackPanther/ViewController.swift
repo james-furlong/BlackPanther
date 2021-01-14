@@ -26,6 +26,7 @@ class ViewController: NSViewController {
     var resultsArray: [RoundResult] = []
     var fixtureYear: String = ""
     var fixture: Fixture? = nil
+    var nrlFixture: [NRLRound]? = nil
     
     // MARK: - Actions
     
@@ -52,8 +53,8 @@ class ViewController: NSViewController {
         let year: String = (fixtureYearTextField?.objectValue ?? formatter.string(from: Date())) as! String
         switch currentSport {
             case .NRL:
-                self.apiClient.getNrlFixture(leagueId: currentSport.leagueId, year: year) { fixture in
-                    self.fixture = fixture
+                self.apiClient.getNrlFixture(year: year) { fixture in
+                    self.nrlFixture = fixture
                 }
             case .BigBashCricket:
                 self.apiClient.getBigBashFixture(year: year) { fixture in
