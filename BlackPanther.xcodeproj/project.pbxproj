@@ -13,13 +13,25 @@
 		6054A34525AA4EE900CF1F83 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6054A34325AA4EE900CF1F83 /* Main.storyboard */; };
 		6054A35125AA4EE900CF1F83 /* BlackPantherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6054A35025AA4EE900CF1F83 /* BlackPantherTests.swift */; };
 		6054A35C25AA4EE900CF1F83 /* BlackPantherUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6054A35B25AA4EE900CF1F83 /* BlackPantherUITests.swift */; };
-		6054A37125AA535B00CF1F83 /* ProfileGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6054A37025AA535B00CF1F83 /* ProfileGroup.swift */; };
+		6054A37125AA535B00CF1F83 /* NRLProfileGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6054A37025AA535B00CF1F83 /* NRLProfileGroup.swift */; };
 		6054A37925AA53CF00CF1F83 /* NRLPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6054A37825AA53CF00CF1F83 /* NRLPlayer.swift */; };
-		6054A37E25AA544E00CF1F83 /* PlayersResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6054A37D25AA544E00CF1F83 /* PlayersResponse.swift */; };
+		6054A37E25AA544E00CF1F83 /* NRLPlayersResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6054A37D25AA544E00CF1F83 /* NRLPlayersResponse.swift */; };
 		6063D5B425AB6DDB004CEEEB /* String_Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6063D5B325AB6DDA004CEEEB /* String_Extensions.swift */; };
-		6063D5BF25AB8EB2004CEEEB /* FixtureResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6063D5BE25AB8EB2004CEEEB /* FixtureResponse.swift */; };
-		6063D5C425AB8EDC004CEEEB /* Round.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6063D5C325AB8EDC004CEEEB /* Round.swift */; };
+		6063D5BF25AB8EB2004CEEEB /* NRLFixtureResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6063D5BE25AB8EB2004CEEEB /* NRLFixtureResponse.swift */; };
+		6063D5C425AB8EDC004CEEEB /* NRLRound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6063D5C325AB8EDC004CEEEB /* NRLRound.swift */; };
 		6063D5C925AC02A0004CEEEB /* RoundResultResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6063D5C825AC02A0004CEEEB /* RoundResultResponse.swift */; };
+		6063D5D425AD4D84004CEEEB /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6063D5D325AD4D84004CEEEB /* ApiClient.swift */; };
+		6063D5E425AD50B3004CEEEB /* NRLTeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6063D5E325AD50B3004CEEEB /* NRLTeam.swift */; };
+		6063D5E925AD50E0004CEEEB /* Sport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6063D5E825AD50E0004CEEEB /* Sport.swift */; };
+		6063D5EE25AD5681004CEEEB /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6063D5ED25AD5681004CEEEB /* NetworkError.swift */; };
+		6063D5F425AD6161004CEEEB /* BigBashFixture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6063D5F325AD6161004CEEEB /* BigBashFixture.swift */; };
+		6063D5FC25AD61A3004CEEEB /* BigBashGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6063D5FB25AD61A3004CEEEB /* BigBashGame.swift */; };
+		6063D60125AD624C004CEEEB /* BigBashTeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6063D60025AD624C004CEEEB /* BigBashTeam.swift */; };
+		6063D60625AD63F0004CEEEB /* BigBashPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6063D60525AD63F0004CEEEB /* BigBashPlayer.swift */; };
+		6063D60B25AE3FEA004CEEEB /* BigBashResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6063D60A25AE3FEA004CEEEB /* BigBashResult.swift */; };
+		6063D63625AE92EC004CEEEB /* BigBashMatchDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6063D63525AE92EC004CEEEB /* BigBashMatchDetail.swift */; };
+		6063D63B25AE9C6C004CEEEB /* BigBashInnings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6063D63A25AE9C6C004CEEEB /* BigBashInnings.swift */; };
+		6063D64025AFFEBA004CEEEB /* BigBashSmallModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6063D63F25AFFEBA004CEEEB /* BigBashSmallModels.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,13 +65,25 @@
 		6054A35725AA4EE900CF1F83 /* BlackPantherUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BlackPantherUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6054A35B25AA4EE900CF1F83 /* BlackPantherUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackPantherUITests.swift; sourceTree = "<group>"; };
 		6054A35D25AA4EE900CF1F83 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6054A37025AA535B00CF1F83 /* ProfileGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileGroup.swift; sourceTree = "<group>"; };
+		6054A37025AA535B00CF1F83 /* NRLProfileGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NRLProfileGroup.swift; sourceTree = "<group>"; };
 		6054A37825AA53CF00CF1F83 /* NRLPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NRLPlayer.swift; sourceTree = "<group>"; };
-		6054A37D25AA544E00CF1F83 /* PlayersResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayersResponse.swift; sourceTree = "<group>"; };
+		6054A37D25AA544E00CF1F83 /* NRLPlayersResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NRLPlayersResponse.swift; sourceTree = "<group>"; };
 		6063D5B325AB6DDA004CEEEB /* String_Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String_Extensions.swift; sourceTree = "<group>"; };
-		6063D5BE25AB8EB2004CEEEB /* FixtureResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixtureResponse.swift; sourceTree = "<group>"; };
-		6063D5C325AB8EDC004CEEEB /* Round.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Round.swift; sourceTree = "<group>"; };
+		6063D5BE25AB8EB2004CEEEB /* NRLFixtureResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NRLFixtureResponse.swift; sourceTree = "<group>"; };
+		6063D5C325AB8EDC004CEEEB /* NRLRound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NRLRound.swift; sourceTree = "<group>"; };
 		6063D5C825AC02A0004CEEEB /* RoundResultResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundResultResponse.swift; sourceTree = "<group>"; };
+		6063D5D325AD4D84004CEEEB /* ApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiClient.swift; sourceTree = "<group>"; };
+		6063D5E325AD50B3004CEEEB /* NRLTeam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NRLTeam.swift; sourceTree = "<group>"; };
+		6063D5E825AD50E0004CEEEB /* Sport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sport.swift; sourceTree = "<group>"; };
+		6063D5ED25AD5681004CEEEB /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		6063D5F325AD6161004CEEEB /* BigBashFixture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigBashFixture.swift; sourceTree = "<group>"; };
+		6063D5FB25AD61A3004CEEEB /* BigBashGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigBashGame.swift; sourceTree = "<group>"; };
+		6063D60025AD624C004CEEEB /* BigBashTeam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigBashTeam.swift; sourceTree = "<group>"; };
+		6063D60525AD63F0004CEEEB /* BigBashPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigBashPlayer.swift; sourceTree = "<group>"; };
+		6063D60A25AE3FEA004CEEEB /* BigBashResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigBashResult.swift; sourceTree = "<group>"; };
+		6063D63525AE92EC004CEEEB /* BigBashMatchDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigBashMatchDetail.swift; sourceTree = "<group>"; };
+		6063D63A25AE9C6C004CEEEB /* BigBashInnings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigBashInnings.swift; sourceTree = "<group>"; };
+		6063D63F25AFFEBA004CEEEB /* BigBashSmallModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigBashSmallModels.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +134,7 @@
 		6054A33C25AA4EE900CF1F83 /* BlackPanther */ = {
 			isa = PBXGroup;
 			children = (
+				6063D5E225AD509A004CEEEB /* Enums */,
 				6063D5B225AB6DC7004CEEEB /* Extensions */,
 				6054A36F25AA533300CF1F83 /* Models */,
 				6054A33D25AA4EE900CF1F83 /* AppDelegate.swift */,
@@ -118,6 +143,8 @@
 				6054A34325AA4EE900CF1F83 /* Main.storyboard */,
 				6054A34625AA4EE900CF1F83 /* Info.plist */,
 				6054A34725AA4EE900CF1F83 /* BlackPanther.entitlements */,
+				6063D5D325AD4D84004CEEEB /* ApiClient.swift */,
+				6063D5ED25AD5681004CEEEB /* NetworkError.swift */,
 			);
 			path = BlackPanther;
 			sourceTree = "<group>";
@@ -143,11 +170,8 @@
 		6054A36F25AA533300CF1F83 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				6054A37025AA535B00CF1F83 /* ProfileGroup.swift */,
-				6054A37825AA53CF00CF1F83 /* NRLPlayer.swift */,
-				6054A37D25AA544E00CF1F83 /* PlayersResponse.swift */,
-				6063D5BE25AB8EB2004CEEEB /* FixtureResponse.swift */,
-				6063D5C325AB8EDC004CEEEB /* Round.swift */,
+				6063D5F225AD6153004CEEEB /* BigBash */,
+				6063D5DB25AD4F6B004CEEEB /* NRL */,
 				6063D5C825AC02A0004CEEEB /* RoundResultResponse.swift */,
 			);
 			path = Models;
@@ -159,6 +183,42 @@
 				6063D5B325AB6DDA004CEEEB /* String_Extensions.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		6063D5DB25AD4F6B004CEEEB /* NRL */ = {
+			isa = PBXGroup;
+			children = (
+				6063D5C325AB8EDC004CEEEB /* NRLRound.swift */,
+				6054A37025AA535B00CF1F83 /* NRLProfileGroup.swift */,
+				6054A37825AA53CF00CF1F83 /* NRLPlayer.swift */,
+				6063D5BE25AB8EB2004CEEEB /* NRLFixtureResponse.swift */,
+				6054A37D25AA544E00CF1F83 /* NRLPlayersResponse.swift */,
+			);
+			path = NRL;
+			sourceTree = "<group>";
+		};
+		6063D5E225AD509A004CEEEB /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				6063D5E325AD50B3004CEEEB /* NRLTeam.swift */,
+				6063D5E825AD50E0004CEEEB /* Sport.swift */,
+			);
+			path = Enums;
+			sourceTree = "<group>";
+		};
+		6063D5F225AD6153004CEEEB /* BigBash */ = {
+			isa = PBXGroup;
+			children = (
+				6063D5F325AD6161004CEEEB /* BigBashFixture.swift */,
+				6063D5FB25AD61A3004CEEEB /* BigBashGame.swift */,
+				6063D60025AD624C004CEEEB /* BigBashTeam.swift */,
+				6063D60525AD63F0004CEEEB /* BigBashPlayer.swift */,
+				6063D60A25AE3FEA004CEEEB /* BigBashResult.swift */,
+				6063D63525AE92EC004CEEEB /* BigBashMatchDetail.swift */,
+				6063D63A25AE9C6C004CEEEB /* BigBashInnings.swift */,
+				6063D63F25AFFEBA004CEEEB /* BigBashSmallModels.swift */,
+			);
+			path = BigBash;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -290,15 +350,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6054A37125AA535B00CF1F83 /* ProfileGroup.swift in Sources */,
+				6063D5F425AD6161004CEEEB /* BigBashFixture.swift in Sources */,
+				6054A37125AA535B00CF1F83 /* NRLProfileGroup.swift in Sources */,
 				6054A34025AA4EE900CF1F83 /* ViewController.swift in Sources */,
+				6063D60625AD63F0004CEEEB /* BigBashPlayer.swift in Sources */,
+				6063D60125AD624C004CEEEB /* BigBashTeam.swift in Sources */,
+				6063D64025AFFEBA004CEEEB /* BigBashSmallModels.swift in Sources */,
+				6063D63B25AE9C6C004CEEEB /* BigBashInnings.swift in Sources */,
+				6063D60B25AE3FEA004CEEEB /* BigBashResult.swift in Sources */,
+				6063D5FC25AD61A3004CEEEB /* BigBashGame.swift in Sources */,
 				6063D5C925AC02A0004CEEEB /* RoundResultResponse.swift in Sources */,
-				6063D5BF25AB8EB2004CEEEB /* FixtureResponse.swift in Sources */,
+				6063D63625AE92EC004CEEEB /* BigBashMatchDetail.swift in Sources */,
+				6063D5BF25AB8EB2004CEEEB /* NRLFixtureResponse.swift in Sources */,
+				6063D5E425AD50B3004CEEEB /* NRLTeam.swift in Sources */,
 				6054A33E25AA4EE900CF1F83 /* AppDelegate.swift in Sources */,
-				6054A37E25AA544E00CF1F83 /* PlayersResponse.swift in Sources */,
+				6054A37E25AA544E00CF1F83 /* NRLPlayersResponse.swift in Sources */,
 				6063D5B425AB6DDB004CEEEB /* String_Extensions.swift in Sources */,
-				6063D5C425AB8EDC004CEEEB /* Round.swift in Sources */,
+				6063D5C425AB8EDC004CEEEB /* NRLRound.swift in Sources */,
 				6054A37925AA53CF00CF1F83 /* NRLPlayer.swift in Sources */,
+				6063D5EE25AD5681004CEEEB /* NetworkError.swift in Sources */,
+				6063D5E925AD50E0004CEEEB /* Sport.swift in Sources */,
+				6063D5D425AD4D84004CEEEB /* ApiClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

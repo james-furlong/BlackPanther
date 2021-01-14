@@ -1,5 +1,5 @@
 //
-//  Round.swift
+//  NRLRound.swift
 //  BlackPanther
 //
 //  Created by James Furlong on 11/1/21.
@@ -7,7 +7,9 @@
 
 import Foundation
 
-struct Round: Codable {
+protocol RoundResult { }
+
+struct NRLRound: Codable, RoundResult {
     let dateEvent: String?// = "2021-06-06";
     let dateEventLocal: String?// = "2021-06-06";
     let idAwayTeam: String?// = 135183;
