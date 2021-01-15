@@ -27,6 +27,7 @@ class ViewController: NSViewController {
     var fixtureYear: String = ""
     var fixture: Fixture? = nil
     var nrlFixture: [NRLRound]? = nil
+    var nrlResults: [NRLRound]? = nil
     
     // MARK: - Actions
     
@@ -76,6 +77,14 @@ class ViewController: NSViewController {
                 guard let fixture = self.fixture as? BigBashFixture else { return }
                 self.apiClient.getBigBashResults(fixture: fixture) { results in
                     self.resultsArray = results ?? []
+                }
+            case .NRL:
+                if self.nrlFixture == nil { return }
+                let formatter = DateFormatter()
+                formatter.dateFormat = "yyyy"
+                let year: String = (fixtureYearTextField?.objectValue ?? formatter.string(from: Date())) as! String
+                self.apiClient.getNrlResults(year: year) { results in
+                    self.nrlResults = results
                 }
             default: self.resultsArray = []
         }

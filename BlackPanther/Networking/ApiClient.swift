@@ -12,6 +12,7 @@ protocol ApiClientProtocols {
     
     // NRL
     func getNrlFixture(year: String, completion: @escaping ([NRLRound]?) -> ())
+    func getNrlResults(year: String, completion: @escaping ([NRLRound]?) -> ())
     func getNrlPlayers(completion: @escaping ([NRLPlayer]) -> ())
     
     // BigBash
@@ -38,6 +39,18 @@ class ApiClient: ApiClientProtocols {
             do {
                 let fixture = try result.decoded() as [NRLRound]
                 completion(fixture)
+            } catch {
+                completion(nil)
+            }
+        }
+    }
+    
+    func getNrlResults(year: String, completion: @escaping ([NRLRound]?) -> ()) {
+        let url = "https://wwos-services.nine.com.au/fixture/nrl/completed/3/\(year)?limit=400"
+        get(from: url) { result in
+            do {
+                let results = try result.decoded() as [NRLRound]
+                completion(results)
             } catch {
                 print(error)
                 completion(nil)

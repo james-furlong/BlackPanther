@@ -11,6 +11,7 @@ protocol RoundResult { }
 
 struct NRLRoundSummary: Codable {
     let venueId: String
+    let subStatus: String
     let venueName: String
     let awayTeamId: String
     let homeTeamId: String
@@ -19,6 +20,8 @@ struct NRLRoundSummary: Codable {
     let homeTeamName: String?
     let latestOptaId: String?
     let competitionName: String
+    let awayTeamScore: String?
+    let homeTeamScore: String?
 }
 
 struct NRLRound: Codable, RoundResult {
@@ -34,28 +37,6 @@ struct NRLRound: Codable, RoundResult {
     let createdAt: String
     let updatedAt: String
     let sportId: Int
-//    id: "018048f9-5a8a-4749-867d-1ba51d2c53ff",
-//    gameId: "321011",
-//    latestScoreId: "1b28a8b3-f2ab-4ab3-b03f-09a876c693da",
-//    competitionId: "3",
-//    optaSeasonId: "2021",
-//    gameDateTime: "2021-03-11T09:05:00.000Z",
-//    status: "Scheduled",
-//    result: null,
-//    summary: {
-//    venueId: "112",
-//    venueName: "AAMI Park",
-//    awayTeamId: "3700",
-//    homeTeamId: "1400",
-//    roundNumber: "1",
-//    awayTeamName: "Rabbitohs",
-//    homeTeamName: "Storm",
-//    latestOptaId: "2551405889",
-//    competitionName: "NRL"
-//    },
-//    createdAt: "2020-11-26T12:26:20.838Z",
-//    updatedAt: "2021-01-14T07:00:18.828Z",
-//    sportId: 5
     
     var startDateTime: Date? {
         let formatter = DateFormatter()
