@@ -716,7 +716,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="buttonTapped:" target="XfG-lQ-9wD" id="79a-Y7-LX3"/>
+                                    <action selector="getPlayersTapped:" target="XfG-lQ-9wD" id="79a-Y7-LX3"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="csh-Cp-sHZ">
@@ -726,7 +726,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="buttonTapped:" target="XfG-lQ-9wD" id="ip0-yu-OFm"/>
+                                    <action selector="viewPlayersTapped:" target="XfG-lQ-9wD" id="qMI-mn-YeZ"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WXr-68-Qjs">
@@ -736,7 +736,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="buttonTapped:" target="XfG-lQ-9wD" id="qtT-TH-Ngr"/>
+                                    <action selector="viewFixtureTapped:" target="XfG-lQ-9wD" id="LxU-4m-YZ4"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UjE-6i-jr3">
@@ -746,7 +746,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="buttonTapped:" target="XfG-lQ-9wD" id="jt8-cJ-G7Y"/>
+                                    <action selector="showResultsTapped:" target="XfG-lQ-9wD" id="9Ks-hy-EQ8"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="V9u-AP-Zdx">
@@ -756,7 +756,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="buttonTapped:" target="XfG-lQ-9wD" id="PUa-nZ-p73"/>
+                                    <action selector="showResultTapped:" target="XfG-lQ-9wD" id="hz2-Cg-fB6"/>
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hNz-85-sKN">
@@ -785,7 +785,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="fixtureButtonTapped:" target="XfG-lQ-9wD" id="u9G-NO-f3L"/>
+                                    <action selector="getFixtureTapped:" target="XfG-lQ-9wD" id="u9G-NO-f3L"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="H0l-in-E8q">
@@ -795,7 +795,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="resultButtonTapped:" target="XfG-lQ-9wD" id="LxR-6j-PFw"/>
+                                    <action selector="getResultsTapped:" target="XfG-lQ-9wD" id="LxR-6j-PFw"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nKE-wL-V0c">
@@ -805,7 +805,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="resultButtonTapped:" target="XfG-lQ-9wD" id="LdI-yu-2Zd"/>
+                                    <action selector="getResultTapped:" target="XfG-lQ-9wD" id="CRN-Yr-xFj"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="98M-Kf-SLr">
@@ -815,7 +815,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="resultButtonTapped:" target="XfG-lQ-9wD" id="oKd-n7-cgy"/>
+                                    <action selector="getStatsTapped:" target="XfG-lQ-9wD" id="5sG-hG-Ejc"/>
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9ct-Ln-28U">
@@ -926,6 +926,9 @@
                                         </items>
                                     </menu>
                                 </popUpButtonCell>
+                                <connections>
+                                    <action selector="sportChanged:" target="XfG-lQ-9wD" id="S7K-ue-Eo6"/>
+                                </connections>
                             </popUpButton>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qCk-qs-l1T">
                                 <rect key="frame" x="225" y="317" width="60" height="21"/>
@@ -949,7 +952,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="buttonTapped:" target="XfG-lQ-9wD" id="vcV-s5-tSj"/>
+                                    <action selector="showStatsTapped:" target="XfG-lQ-9wD" id="kbq-MT-qTI"/>
                                 </connections>
                             </button>
                             <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e1n-7S-qQW">
@@ -1049,10 +1052,14 @@
                         <outlet property="errorLabel" destination="bRk-5q-GmL" id="aed-md-Ws9"/>
                         <outlet property="fixtureIndicatorBar" destination="IlT-FQ-eYp" id="5RV-dP-AG3"/>
                         <outlet property="fixtureYearTextField" destination="qCk-qs-l1T" id="lzE-eh-fp8"/>
+                        <outlet property="outputView" destination="e1n-7S-qQW" id="RRa-sq-Eb0"/>
                         <outlet property="playerIndicatorBar" destination="78G-wA-Txk" id="OnO-aI-Ybh"/>
                         <outlet property="resultGameTextField" destination="t0j-g6-CuL" id="MMg-Ir-57I"/>
-                        <outlet property="resultIndicatorBar" destination="u5u-WS-Tco" id="VoI-2X-p28"/>
+                        <outlet property="resultIndicatorBar" destination="zkd-as-GDn" id="oYY-wS-eIR"/>
                         <outlet property="resultRoundTextField" destination="Yc1-cr-oKH" id="Bxk-PL-OgR"/>
+                        <outlet property="resultsIndicatorBar" destination="u5u-WS-Tco" id="VoI-2X-p28"/>
+                        <outlet property="sportOptions" destination="ZAD-sN-Ey4" id="igZ-BP-rgD"/>
+                        <outlet property="statsProgressBar" destination="vh4-Zg-aka" id="prj-2K-NAb"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

@@ -9,14 +9,18 @@ import Cocoa
 import WebKit
 
 class ViewController: NSViewController {
-    @IBOutlet weak var playerIndicatorBar: NSProgressIndicator!
-    @IBOutlet weak var fixtureIndicatorBar: NSProgressIndicator!
-    @IBOutlet weak var resultIndicatorBar: NSProgressIndicator!
-    @IBOutlet weak var sportTextField: NSTextField!
+    @IBOutlet weak var outputView: NSScrollView!
+    @IBOutlet weak var sportOptions: NSPopUpButton!
+    
     @IBOutlet weak var fixtureYearTextField: NSTextField?
     @IBOutlet weak var resultRoundTextField: NSTextField!
     @IBOutlet weak var resultGameTextField: NSTextField!
-    @IBOutlet weak var errorLabel: NSTextField!
+    
+    @IBOutlet weak var playerIndicatorBar: NSProgressIndicator!
+    @IBOutlet weak var fixtureIndicatorBar: NSProgressIndicator!
+    @IBOutlet weak var resultsIndicatorBar: NSProgressIndicator!
+    @IBOutlet weak var resultIndicatorBar: NSProgressIndicator!
+    @IBOutlet weak var statsProgressBar: NSProgressIndicator!
     
     private let apiClient = ApiClient()
     private var currentSport: Sport = .NRL
@@ -29,14 +33,20 @@ class ViewController: NSViewController {
     var nrlFixture: [NRLRound]? = nil
     var nrlResults: [NRLRound]? = nil
     
-    // MARK: - Actions
-    
-    @IBAction func sportChange(_ sender: NSButtonCell) {
-        currentSport = Sport.allCases[sender.tag]
-        sportTextField.objectValue = currentSport.title
+    override func viewDidLoad() {
+        self.sportOptions.removeAllItems()
+        Sport.allCases.forEach { sport in
+            self.sportOptions.addItem(withTitle: sport.title)
+        }
     }
     
-    @IBAction func buttonTapped(_ sender: Any) {
+    // MARK: - Actions
+    
+    @IBAction func sportChanged(_ sender: NSPopUpButton) {
+        currentSport = Sport.allCases[sender.indexOfSelectedItem]
+    }
+    
+    @IBAction func getPlayersTapped(_ sender: Any) {
         switch currentSport {
             case .NRL: self.apiClient.getNrlPlayers { players in
                 self.playerArray = players
@@ -45,7 +55,11 @@ class ViewController: NSViewController {
         }
     }
     
-    @IBAction func fixtureButtonTapped(_ sender: Any) {
+    @IBAction func viewPlayersTapped(_ sender: NSButton) {
+        //TODO: Implement this
+    }
+    
+    @IBAction func getFixtureTapped(_ sender: Any) {
         DispatchQueue.main.async {
             self.fixtureIndicatorBar.doubleValue = 0.0
         }
@@ -68,9 +82,13 @@ class ViewController: NSViewController {
         }
     }
     
-    @IBAction func resultButtonTapped(_ sender: Any) {
+    @IBAction func viewFixtureTapped(_ sender: Any) {
+        //TODO: Implement this
+    }
+    
+    @IBAction func getResultsTapped(_ sender: Any) {
         DispatchQueue.main.async {
-            self.resultIndicatorBar.doubleValue = 0.0
+            self.resultsIndicatorBar.doubleValue = 0.0
         }
         switch currentSport {                
             case .BigBashCricket:
@@ -88,6 +106,26 @@ class ViewController: NSViewController {
                 }
             default: self.resultsArray = []
         }
+    }
+    
+    @IBAction func showResultsTapped(_ sender: Any) {
+        //TODO: Implement this
+    }
+    
+    @IBAction func getResultTapped(_ sender: Any) {
+        //TODO: Implement this
+    }
+    
+    @IBAction func showResultTapped(_ sender: Any) {
+        //TODO: Implement this
+    }
+    
+    @IBAction func getStatsTapped(_ sender: Any) {
+        //TODO: Implement this
+    }
+    
+    @IBAction func showStatsTapped(_ sender: Any) {
+        //TODO: Implement this
     }
     
     // MARK: - Internal functions
@@ -114,38 +152,7 @@ class ViewController: NSViewController {
         }.resume()
     }
     
-    private func pushUpPlayerInfo() {
-        // TODO: Complete this
-    }
-    
-    private func pushUpFixtureInformation() {
-        // TODO: Complete this
-    }
-    
-    private func pushUpRoundResults() {
-        // TODO: complete this
-        self.resultsArray = []
-    }
-    
     private func displayError(_ message: String) {
-        self.errorLabel.objectValue = message
-        
-        NSAnimationContext.runAnimationGroup ({ context in
-            context.duration = 2.0
-            context.allowsImplicitAnimation = true
-            
-            self.errorLabel.alphaValue = 1.0
-            self.view.layoutSubtreeIfNeeded()
-        }, completionHandler: {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                NSAnimationContext.runAnimationGroup({ closeContext in
-                    closeContext.duration = 4.0
-                    closeContext.allowsImplicitAnimation = true
-                    
-                    self.errorLabel.alphaValue = 0.0
-                    self.view.layoutSubtreeIfNeeded()
-                }, completionHandler: nil)
-            }
-        })
+        // TODO: Add error text to output console
     }
 }
