@@ -10,7 +10,9 @@ import Foundation
 struct NRLPlayer: Codable {
     let firstName: String
     let lastName: String
-    let teamNickName: String
     let position: String
+    let playerId: Int
     let url: String
+    let number: Int
+    let isOnField: Bool
 }

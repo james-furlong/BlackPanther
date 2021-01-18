@@ -32,6 +32,7 @@
 		6063D63625AE92EC004CEEEB /* BigBashMatchDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6063D63525AE92EC004CEEEB /* BigBashMatchDetail.swift */; };
 		6063D63B25AE9C6C004CEEEB /* BigBashInnings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6063D63A25AE9C6C004CEEEB /* BigBashInnings.swift */; };
 		6063D64025AFFEBA004CEEEB /* BigBashSmallModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6063D63F25AFFEBA004CEEEB /* BigBashSmallModels.swift */; };
+		60E992E125B5415800312A1E /* NRLMatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60E992E025B5415800312A1E /* NRLMatch.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +85,7 @@
 		6063D63525AE92EC004CEEEB /* BigBashMatchDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigBashMatchDetail.swift; sourceTree = "<group>"; };
 		6063D63A25AE9C6C004CEEEB /* BigBashInnings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigBashInnings.swift; sourceTree = "<group>"; };
 		6063D63F25AFFEBA004CEEEB /* BigBashSmallModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigBashSmallModels.swift; sourceTree = "<group>"; };
+		60E992E025B5415800312A1E /* NRLMatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NRLMatch.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,6 +194,7 @@
 				6054A37825AA53CF00CF1F83 /* NRLPlayer.swift */,
 				6063D5BE25AB8EB2004CEEEB /* NRLFixtureResponse.swift */,
 				6054A37D25AA544E00CF1F83 /* NRLPlayersResponse.swift */,
+				60E992E025B5415800312A1E /* NRLMatch.swift */,
 			);
 			path = NRL;
 			sourceTree = "<group>";
@@ -376,6 +379,7 @@
 				6063D5B425AB6DDB004CEEEB /* String_Extensions.swift in Sources */,
 				6063D5C425AB8EDC004CEEEB /* NRLRound.swift in Sources */,
 				6054A37925AA53CF00CF1F83 /* NRLPlayer.swift in Sources */,
+				60E992E125B5415800312A1E /* NRLMatch.swift in Sources */,
 				6063D5EE25AD5681004CEEEB /* NetworkError.swift in Sources */,
 				6063D5E925AD50E0004CEEEB /* Sport.swift in Sources */,
 				6063D5D425AD4D84004CEEEB /* ApiClient.swift in Sources */,
