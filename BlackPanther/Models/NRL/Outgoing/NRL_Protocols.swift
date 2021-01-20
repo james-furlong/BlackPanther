@@ -7,19 +7,33 @@
 
 import Foundation
 
-protocol Fixture {
-    var sport: Sport { get }
-    var rounds: [Round] { get }
+class Fixture: Codable {
+    let sport: Sport
+    let rounds: [Round]
+    
+    init(sport: Sport, rounds: [Round]) {
+        self.sport = sport
+        self.rounds = rounds
+    }
 }
 
-protocol Match {
-    var name: String { get }
-    var location: String { get }
-    var startDateTime: Date { get }
+struct Match: Codable {
+    let name: String
+    let location: String
+    let startDateTime: Date
+    let homeTeamId: Int?
+    let homeTeamName: String?
+    let awayTeamId: Int?
+    let awayTeamName: String?
+    let homeTeamScore: Int?
+    let awayTeamScore: Int?
+    let matchEvents: [Event]
 }
 
-protocol Round {
-    var roundTitle: String { get }
-    var round: Int { get }
-    var matches: [Match] { get }
+struct Round: Codable {
+    let roundTitle: String
+    let round: Int
+    let matches: [Match]
 }
+
+struct Event: Codable { }

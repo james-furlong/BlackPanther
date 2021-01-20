@@ -38,9 +38,9 @@ struct NRLMatchResponse: Decodable {
 
 struct NRLMatchTeamResponse: Decodable {
     let teamId: Int
-    let nickeName: String
+    let nickName: String
     let name: String?
-    let score: Int
+    let score: Int?
     let captainPlayerId: Int?
     let players: [NRLPlayerResponse]?
     let coaches: [NRLSupportPersonResponse]?

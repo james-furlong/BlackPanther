@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Sport: CaseIterable {
+enum Sport: String, CaseIterable, Codable {
     case NRL
     case AFL
     case BigBashCricket

@@ -11,7 +11,7 @@ import WebKit
 protocol ApiClientProtocols {
     
     // NRL
-    func getNrlFixture(year: String, comp: NRLComp, completion: @escaping ([NRLRoundResponse]?) -> ())
+    func getNrlFixture(year: String, comp: NRLComp, completion: @escaping (NRLFixture?) -> ())
     func getNrlResults(year: String, completion: @escaping ([NRLRoundResponse]?) -> ())
     func getNrlPlayers(completion: @escaping ([NRLPlayerResponse]) -> ())
     
@@ -33,28 +33,35 @@ class ApiClient: ApiClientProtocols {
     
     // MARK: - NRL
     
-    func getNrlFixture(year: String, comp: NRLComp, completion: @escaping ([NRLRoundResponse]?) -> ()) {
+    func getNrlFixture(year: String, comp: NRLComp, completion: @escaping (NRLFixture?) -> ()) {
         let url = String(format: "https://www.nrl.com/draw/data?competition=\(comp.rawValue)")
         get(from: url) { [weak self] result in
             do {
+                var roundArray = [NRLRound]()
                 let initialData = try result.decoded() as NRLFixtureResponse
                 let rounds: [Int] = initialData.filterRounds.map { $0.value }
                 for round in rounds {
                     let roundUrl = "https://www.nrl.com/draw/data?competition=\(comp.rawValue)&season=\(year)&round=\(round)"
                     self?.get(from: roundUrl) { result in
                         do {
-                            let roundData = try result.decoded() as [NRLRoundResponse]
-                            
+                            let roundResponse = try result.decoded() as NRLFixtureResponse
+                            roundArray.append(NRLRound(from: roundResponse.fixtures))
                         } catch {
-                            
+                            print(error)
+                        }
+                        if roundArray.count == rounds.count {
+                            completion(NRLFixture(rounds: roundArray))
                         }
                     }
                 }
                 
             } catch {
+                print(error)
                 completion(nil)
             }
         }
+        
+        completion(nil)
     }
     
     func getNrlResults(year: String, completion: @escaping ([NRLRoundResponse]?) -> ()) {

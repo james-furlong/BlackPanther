@@ -7,7 +7,6 @@
 
 import Foundation
 
-struct NRLFixture: Encodable, Fixture {
-    let sport: Sport
-    var rounds: [Round]
+struct NRLFixture: Codable {
+    let rounds: [NRLRound]
 }

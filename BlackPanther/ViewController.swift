@@ -30,7 +30,7 @@ class ViewController: NSViewController {
     var resultsArray: [RoundResult] = []
     var fixtureYear: String = ""
     var fixture: Fixture? = nil
-    var nrlFixture: [NRLRoundResponse]? = nil
+    var nrlFixture: NRLFixture? = nil
     var nrlResults: [NRLRoundResponse]? = nil
     
     override func viewDidLoad() {
@@ -73,7 +73,7 @@ class ViewController: NSViewController {
                 }
             case .BigBashCricket:
                 self.apiClient.getBigBashFixture(year: year) { fixture in
-                    self.fixture = fixture
+//                    self.fixture = fixture
                 }
             default: self.fixture = nil
         }

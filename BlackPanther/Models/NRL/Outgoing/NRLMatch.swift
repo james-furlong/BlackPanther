@@ -7,10 +7,10 @@
 
 import Foundation
 
-struct NRLMatch: Codable, Match {
+struct NRLMatch: Codable {
     let name: String
     let location: String
-    let startDateTime: Date
+    let startDateTime: Date?
     let matchMode: NRLMatchMode
     let matchState: NRLMatchState
     let venue: String
@@ -30,6 +30,7 @@ enum NRLMatchMode: String, Codable {
 enum NRLMatchState: String, Codable {
     case Fulltime = "FullTime"
     case Upcoming = "Upcoming"
+    case Ongoing = "Ongoing"
 }
 
 struct NRLStats: Codable {
@@ -39,7 +40,14 @@ struct NRLStats: Codable {
 
 struct NRLTeam: Codable {
     let teamId: Int
-    let teamName: String
+    let teamName: String?
     let teamNickname: String
-    let teamPosition: Int
+    let teamPosition: Int?
+    
+    init(from response: NRLMatchTeamResponse) {
+        self.teamId = response.teamId
+        self.teamName = response.name
+        self.teamNickname = response.nickName
+        self.teamPosition = nil
+    }
 }

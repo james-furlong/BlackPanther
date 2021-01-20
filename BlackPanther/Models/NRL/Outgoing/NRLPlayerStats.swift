@@ -7,6 +7,8 @@
 
 import Foundation
 
+protocol Stats { }
+
 struct NRLPlayerStats: Codable {
     let playerId: Int
     let playerName: String
