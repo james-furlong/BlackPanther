@@ -11,9 +11,9 @@ import WebKit
 protocol ApiClientProtocols {
     
     // NRL
-    func getNrlFixture(year: String, completion: @escaping ([NRLRound]?) -> ())
-    func getNrlResults(year: String, completion: @escaping ([NRLRound]?) -> ())
-    func getNrlPlayers(completion: @escaping ([NRLPlayer]) -> ())
+    func getNrlFixture(year: String, comp: NRLComp, completion: @escaping ([NRLRoundResponse]?) -> ())
+    func getNrlResults(year: String, completion: @escaping ([NRLRoundResponse]?) -> ())
+    func getNrlPlayers(completion: @escaping ([NRLPlayerResponse]) -> ())
     
     // BigBash
     func getBigBashFixture(year: String, completion: @escaping (BigBashFixture?) -> ())
@@ -33,23 +33,35 @@ class ApiClient: ApiClientProtocols {
     
     // MARK: - NRL
     
-    func getNrlFixture(year: String, completion: @escaping ([NRLRound]?) -> ()) {
-        let url = String(format: "https://wwos-services.nine.com.au/fixture/nrl/scheduled/3/\(year)?limit=400")
-        get(from: url) { result in
+    func getNrlFixture(year: String, comp: NRLComp, completion: @escaping ([NRLRoundResponse]?) -> ()) {
+        let url = String(format: "https://www.nrl.com/draw/data?competition=\(comp.rawValue)")
+        get(from: url) { [weak self] result in
             do {
-                let fixture = try result.decoded() as [NRLRound]
-                completion(fixture)
+                let initialData = try result.decoded() as NRLFixtureResponse
+                let rounds: [Int] = initialData.filterRounds.map { $0.value }
+                for round in rounds {
+                    let roundUrl = "https://www.nrl.com/draw/data?competition=\(comp.rawValue)&season=\(year)&round=\(round)"
+                    self?.get(from: roundUrl) { result in
+                        do {
+                            let roundData = try result.decoded() as [NRLRoundResponse]
+                            
+                        } catch {
+                            
+                        }
+                    }
+                }
+                
             } catch {
                 completion(nil)
             }
         }
     }
     
-    func getNrlResults(year: String, completion: @escaping ([NRLRound]?) -> ()) {
+    func getNrlResults(year: String, completion: @escaping ([NRLRoundResponse]?) -> ()) {
         let url = "https://wwos-services.nine.com.au/fixture/nrl/completed/3/\(year)?limit=400"
         get(from: url) { result in
             do {
-                let results = try result.decoded() as [NRLRound]
+                let results = try result.decoded() as [NRLRoundResponse]
                 completion(results)
             } catch {
                 print(error)
@@ -58,59 +70,8 @@ class ApiClient: ApiClientProtocols {
         }
     }
     
-    func getNrlPlayers(completion: @escaping ([NRLPlayer]) -> ()) {
-        var teamArray: [NRLTeam] = []
-        var playerArray: [NRLPlayer] = []
-        for team in NRLTeam.allCases {
-            var jsonText: String?
-            self.scrapeWebsite(url: team.url) { rawData in
-                if let startRange = rawData.range(of: "profileGroups") {
-                    let startText = rawData.substring(from: startRange.lowerBound)
-                    let rangeText = """
-                    \"\r\n
-                    """
-                    if let endRange = startText.range(of:rangeText) {
-                        jsonText = startText.substring(to: endRange.lowerBound)
-                        let json1 = jsonText?.replacingOccurrences(
-                            of: "&quot;",
-                            with: "\""
-                        )
-                        let json3 = "{\(json1!)"
-                        let json5 = json3.replacingOccurrences(of: "\\", with: "")
-                        var json4 = json5.replacingOccurrences(of: "Optional(", with: "")
-                        json4.append("}")
-                        if json4[1] != "\"" {
-                            json4.insert("\"", at: json4.index(after: json4.startIndex))
-                        }
-                        if json4[json4.count - 1] == "}" && json4[json4.count - 2] == "}" {
-                            json4.removeLast()
-                        }
-                        print(json4.description)
-
-                        let jsonData = json4.data(using: .utf8)
-                        do {
-                            let decoded = try JSONDecoder().decode(NRLPlayersResponse.self, from: jsonData!)
-                            for group in decoded.profileGroups {
-                                for player in group.profiles {
-                                    playerArray.append(player)
-                                }
-                            }
-                        } catch {
-                            // TODO: Log error
-                        }
-                    }
-                }
-                teamArray.append(team)
-                var containsAllTeams: Bool = true
-                for t in NRLTeam.allCases {
-                    if !teamArray.contains(t) { containsAllTeams = false }
-                }
-
-                if containsAllTeams {
-                    completion(playerArray)
-                }
-            }
-        }
+    func getNrlPlayers(completion: @escaping ([NRLPlayerResponse]) -> ()) {
+        
     }
     
     // MARK: - Big Bash League

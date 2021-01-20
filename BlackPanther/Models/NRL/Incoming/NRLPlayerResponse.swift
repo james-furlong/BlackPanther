@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct NRLPlayer: Codable {
+struct NRLPlayerResponse: Decodable {
     let firstName: String
     let lastName: String
     let position: String

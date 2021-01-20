@@ -25,13 +25,13 @@ class ViewController: NSViewController {
     private let apiClient = ApiClient()
     private var currentSport: Sport = .NRL
     
-    var playerArray: [NRLPlayer] = []
+    var playerArray: [NRLPlayerResponse] = []
     var teamArray: [NRLTeam] = []
     var resultsArray: [RoundResult] = []
     var fixtureYear: String = ""
     var fixture: Fixture? = nil
-    var nrlFixture: [NRLRound]? = nil
-    var nrlResults: [NRLRound]? = nil
+    var nrlFixture: [NRLRoundResponse]? = nil
+    var nrlResults: [NRLRoundResponse]? = nil
     
     override func viewDidLoad() {
         self.sportOptions.removeAllItems()
@@ -68,7 +68,7 @@ class ViewController: NSViewController {
         let year: String = (fixtureYearTextField?.objectValue ?? formatter.string(from: Date())) as! String
         switch currentSport {
             case .NRL:
-                self.apiClient.getNrlFixture(year: year) { fixture in
+                self.apiClient.getNrlFixture(year: year, comp: NRLComp.PremiershipMens) { fixture in
                     self.nrlFixture = fixture
                 }
             case .BigBashCricket:
