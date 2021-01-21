@@ -736,7 +736,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="viewFixtureTapped:" target="XfG-lQ-9wD" id="LxU-4m-YZ4"/>
+                                    <action selector="viewFixtureTapped:" target="XfG-lQ-9wD" id="KnI-cE-ZML"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UjE-6i-jr3">

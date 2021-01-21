@@ -23,6 +23,7 @@ class ViewController: NSViewController {
     @IBOutlet weak var statsProgressBar: NSProgressIndicator!
     
     private let apiClient = ApiClient()
+    private var textOutput: NSTextView? = nil
     private var currentSport: Sport = .NRL
     
     var playerArray: [NRLPlayerResponse] = []
@@ -38,6 +39,8 @@ class ViewController: NSViewController {
         Sport.allCases.forEach { sport in
             self.sportOptions.addItem(withTitle: sport.title)
         }
+        super.viewDidLoad()
+        textOutput = outputView.documentView as? NSTextView
     }
     
     // MARK: - Actions
@@ -83,7 +86,14 @@ class ViewController: NSViewController {
     }
     
     @IBAction func viewFixtureTapped(_ sender: Any) {
-        //TODO: Implement this
+        guard let fixture = self.nrlFixture else {
+            self.textOutput?.textColor = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
+            self.textOutput?.textStorage?.mutableString.setString("Fixture must be retrieved first")
+            return
+        }
+        
+        self.textOutput?.textColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
+        self.textOutput?.textStorage?.mutableString.setString(fixture.toString())
     }
     
     @IBAction func getResultsTapped(_ sender: Any) {
