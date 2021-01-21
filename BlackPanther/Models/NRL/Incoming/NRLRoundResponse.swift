@@ -23,7 +23,7 @@ struct NRLRoundResponse: Decodable, RoundResult {
     
     var startDateTime: Date? {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd 'T' HH:mm:ss"
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
         return formatter.date(from: self.clock.kickOffTimeLong) ?? nil
     }
 }

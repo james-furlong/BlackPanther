@@ -8,14 +8,16 @@
 import Foundation
 
 struct NRLFixture: Codable {
+    let year: String
     let rounds: [NRLRound]
     
     func toString() -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEE, MMM d, HH:mm"
-        let header = "NRL FIXTURE:\n\n"
+        let header = "NRL FIXTURE FOR \(year) ------------------- \n\n"
+        let orderedRounds = rounds.sorted { $0.round < $1.round }
         var roundStrings: String = ""
-        rounds.forEach { round in
+        orderedRounds.forEach { round in
             let roundHeader = "  ROUND: \(round.round)\n"
             var matchStrings = ""
             round.matches.forEach { match in

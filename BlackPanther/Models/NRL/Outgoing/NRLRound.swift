@@ -14,7 +14,8 @@ struct NRLRound: Codable {
     let roundEndDateTime: Date?
     var matches: [NRLMatch]
     
-    init(from roundResponse: [NRLRoundResponse]) {
+    init(from fixture: NRLFixtureResponse) {
+        let roundResponse: [NRLRoundResponse] = fixture.fixtures
         var matchArray = [NRLMatch]()
         roundResponse.forEach { round in
             matchArray.append(
@@ -36,13 +37,18 @@ struct NRLRound: Codable {
         }
         matchArray.sort { $0.startDateTime ?? Date() < $1.startDateTime ?? Date() }
         
-        let roundString = roundResponse.first?.roundTitle ?? "1"
-        let round = roundString
-            .components(separatedBy: CharacterSet.decimalDigits.inverted)
-            .filter { Int($0) != nil }
-            .first
+        let round: Int? = fixture
+            .filterRounds
+            .first { $0.name == roundResponse.first?.roundTitle }?
+            .value
         
-        self.round = Int(round ?? "1") ?? 1
+//        let roundString = roundResponse.first?.roundTitle ?? "1"
+//        let round = roundString
+//            .components(separatedBy: CharacterSet.decimalDigits.inverted)
+//            .filter { Int($0) != nil }
+//            .first
+//
+        self.round = round ?? 0
         self.roundTitle = roundResponse.first?.roundTitle
         self.roundStartDateTime = roundResponse.first?.startDateTime
         self.roundEndDateTime = roundResponse.last?.startDateTime?.addingTimeInterval(TimeInterval(60 * 60 * 100))

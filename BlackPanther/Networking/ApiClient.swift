@@ -45,12 +45,12 @@ class ApiClient: ApiClientProtocols {
                     self?.get(from: roundUrl) { result in
                         do {
                             let roundResponse = try result.decoded() as NRLFixtureResponse
-                            roundArray.append(NRLRound(from: roundResponse.fixtures))
+                            roundArray.append(NRLRound(from: roundResponse))
                         } catch {
                             print(error)
                         }
                         if roundArray.count == rounds.count {
-                            completion(NRLFixture(rounds: roundArray))
+                            completion(NRLFixture(year: year, rounds: roundArray))
                         }
                     }
                 }
