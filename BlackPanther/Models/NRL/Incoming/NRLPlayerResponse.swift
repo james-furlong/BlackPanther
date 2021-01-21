@@ -12,7 +12,7 @@ struct NRLPlayerResponse: Decodable {
     let lastName: String
     let position: String
     let playerId: Int
-    let url: String
+    let url: String?
     let number: Int
     let isOnField: Bool
 }

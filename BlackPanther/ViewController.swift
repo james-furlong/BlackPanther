@@ -32,7 +32,7 @@ class ViewController: NSViewController {
     var fixtureYear: String = ""
     var fixture: Fixture? = nil
     var nrlFixture: NRLFixture? = nil
-    var nrlResults: [NRLRoundResponse]? = nil
+    var nrlResults: [NRLRound]? = nil
     
     override func viewDidLoad() {
         self.sportOptions.removeAllItems()
@@ -107,11 +107,13 @@ class ViewController: NSViewController {
                     self.resultsArray = results ?? []
                 }
             case .NRL:
-                if self.nrlFixture == nil { return }
+                guard let fixture = self.nrlFixture else { return }
                 let formatter = DateFormatter()
                 formatter.dateFormat = "yyyy"
                 let year: String = (fixtureYearTextField?.objectValue ?? formatter.string(from: Date())) as! String
-                self.apiClient.getNrlResults(year: year) { results in
+                let round: String = ""
+                let game: String = ""
+                self.apiClient.getNrlResults(fixture: fixture) { results in
                     self.nrlResults = results
                 }
             default: self.resultsArray = []

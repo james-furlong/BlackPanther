@@ -12,7 +12,7 @@ protocol ApiClientProtocols {
     
     // NRL
     func getNrlFixture(year: String, comp: NRLComp, completion: @escaping (NRLFixture?) -> ())
-    func getNrlResults(year: String, completion: @escaping ([NRLRoundResponse]?) -> ())
+    func getNrlResults(fixture: NRLFixture, completion: @escaping ([NRLRound]?) -> ())
     func getNrlPlayers(completion: @escaping ([NRLPlayerResponse]) -> ())
     
     // BigBash
@@ -56,7 +56,6 @@ class ApiClient: ApiClientProtocols {
                 }
                 
             } catch {
-                print(error)
                 completion(nil)
             }
         }
@@ -64,15 +63,32 @@ class ApiClient: ApiClientProtocols {
         completion(nil)
     }
     
-    func getNrlResults(year: String, completion: @escaping ([NRLRoundResponse]?) -> ()) {
-        let url = "https://wwos-services.nine.com.au/fixture/nrl/completed/3/\(year)?limit=400"
-        get(from: url) { result in
-            do {
-                let results = try result.decoded() as [NRLRoundResponse]
-                completion(results)
-            } catch {
-                print(error)
-                completion(nil)
+    func getNrlResults(fixture: NRLFixture, completion: @escaping ([NRLRound]?) -> ()) {
+        var roundArray: [NRLRound] = []
+        fixture.rounds.forEach { round in
+            var matchResults = NRLRound(
+                round: round.round,
+                roundTitle: round.roundTitle,
+                roundStartDateTime: round.roundStartDateTime,
+                roundEndDateTime: round.roundEndDateTime
+            )
+            round.matches.forEach { match in
+                let url = "https://www.nrl.com\(match.matchUrl)data?"
+                get(from: url) { result in
+                    do {
+                        let roundResult = try result.decoded() as NRLMatchResponse
+                        matchResults.matches.append(NRLMatch(from: roundResult, with: match))
+                    } catch {
+                        print(error)
+                        completion(nil)
+                    }
+                    if matchResults.matches.count == round.matches.count {
+                        roundArray.append(matchResults)
+                    }
+                    if roundArray.count == fixture.rounds.count {
+                        completion(roundArray)
+                    }
+                }
             }
         }
     }

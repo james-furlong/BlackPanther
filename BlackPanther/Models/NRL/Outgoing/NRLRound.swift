@@ -14,6 +14,18 @@ struct NRLRound: Codable {
     let roundEndDateTime: Date?
     var matches: [NRLMatch]
     
+    var roundUrl: String {
+        roundTitle?.replacingOccurrences(of: " ", with: "-").lowercased() ?? ""
+    }
+    
+    init(round: Int, roundTitle: String? = nil, roundStartDateTime: Date? = nil, roundEndDateTime: Date? = nil, matches: [NRLMatch] = []) {
+        self.round = round
+        self.roundTitle = roundTitle
+        self.roundStartDateTime = roundStartDateTime
+        self.roundEndDateTime = roundEndDateTime
+        self.matches = matches
+    }
+    
     init(from fixture: NRLFixtureResponse) {
         let roundResponse: [NRLRoundResponse] = fixture.fixtures
         var matchArray = [NRLMatch]()
@@ -41,15 +53,9 @@ struct NRLRound: Codable {
             .filterRounds
             .first { $0.name == roundResponse.first?.roundTitle }?
             .value
-        
-//        let roundString = roundResponse.first?.roundTitle ?? "1"
-//        let round = roundString
-//            .components(separatedBy: CharacterSet.decimalDigits.inverted)
-//            .filter { Int($0) != nil }
-//            .first
-//
+
         self.round = round ?? 0
-        self.roundTitle = roundResponse.first?.roundTitle
+        self.roundTitle = roundResponse.first?.roundTitle ?? ""
         self.roundStartDateTime = roundResponse.first?.startDateTime
         self.roundEndDateTime = roundResponse.last?.startDateTime?.addingTimeInterval(TimeInterval(60 * 60 * 100))
         self.matches = matchArray

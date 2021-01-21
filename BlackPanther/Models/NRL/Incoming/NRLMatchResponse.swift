@@ -29,8 +29,8 @@ struct NRLMatchResponse: Decodable {
     let positionGroups: [NRLPositionGroupResponse]
     let roundTitle: String
     let segmentCount: Int
-    let segmentDuration: String
-    let showTeamPosition: Bool
+    let segmentDuration: Int
+    let showTeamPosition: Bool?
     let showPlayerPositions: Bool
     let stats: NRLMatchStatsResponse
     let timeline: [NRLEventResponse]
@@ -45,6 +45,7 @@ struct NRLMatchTeamResponse: Decodable {
     let players: [NRLPlayerResponse]?
     let coaches: [NRLSupportPersonResponse]?
     let scoring: NRLScoreResponse?
+    let discipline: NRLDiscipline?
 }
 
 struct NRLSupportPersonResponse: Decodable {
@@ -52,7 +53,7 @@ struct NRLSupportPersonResponse: Decodable {
     let lastName: String
     let profileId: Int
     let position: String
-    let url: String
+    let url: String?
 }
 
 struct NRLScoreResponse: Decodable {
@@ -61,6 +62,19 @@ struct NRLScoreResponse: Decodable {
     let penaltyGoals: NRLScoreSummaryResponse?
     let fieldGoals: NRLScoreSummaryResponse?
     let halfTimeScore: Int
+}
+
+struct NRLDiscipline: Decodable {
+    let sinBin: SinBin?
+    let sendOff: SendOff?
+}
+
+struct SinBin: Decodable {
+    let summaries: [String]
+}
+
+struct SendOff: Decodable {
+    let summaries: [String]
 }
 
 struct NRLScoreSummaryResponse: Decodable {
@@ -77,7 +91,7 @@ struct NRLCompetitionResponse: Decodable {
 
 struct NRLPositionGroupResponse: Decodable {
     let title: String
-    let positions: NRLPositionResponse
+    let positions: [NRLPositionResponse]
 }
 
 struct NRLPositionResponse: Decodable {
@@ -124,7 +138,7 @@ struct NRLGroupedStatsResponse: Decodable {
 }
 
 struct NRLPlayerStatsResponse: Decodable {
-    let playerId: Int
+    let playerId: Int?
     let allRunMetres: Int
     let allRuns: Int
     let bombKicks: Int
@@ -140,7 +154,7 @@ struct NRLPlayerStatsResponse: Decodable {
     let forcedDropOutKicks: Int
     let fortyTwentyKicks: Int
     let goals: Int
-    let goalConversionRate: Int
+    let goalConversionRate: Decimal
     let grubberKicks: Int
     let handlingErrors: Int
     let hitUps: Int
@@ -186,6 +200,6 @@ struct NRLEventResponse: Decodable {
     let title: String
     let type: String
     let gameSeconds: Int
-    let playerId: Int
+    let playerId: Int?
     let teamId: Int
 }
