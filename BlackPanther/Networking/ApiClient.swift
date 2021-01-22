@@ -59,8 +59,6 @@ class ApiClient: ApiClientProtocols {
                 completion(nil)
             }
         }
-        
-        completion(nil)
     }
     
     func getNrlResults(fixture: NRLFixture, completion: @escaping ([NRLRound]?) -> ()) {
@@ -74,19 +72,29 @@ class ApiClient: ApiClientProtocols {
             )
             round.matches.forEach { match in
                 let url = "https://www.nrl.com\(match.matchUrl)data?"
-                get(from: url) { result in
-                    do {
-                        let roundResult = try result.decoded() as NRLMatchResponse
-                        matchResults.matches.append(NRLMatch(from: roundResult, with: match))
-                    } catch {
-                        print(error)
-                        completion(nil)
-                    }
-                    if matchResults.matches.count == round.matches.count {
-                        roundArray.append(matchResults)
-                    }
-                    if roundArray.count == fixture.rounds.count {
-                        completion(roundArray)
+                // This delay is placed on each of the API call to prevent the API server from
+                // crashing due to too many async calls
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
+                    self.get(from: url) { result in
+                        switch result {
+                            case .success(let data):
+                                print(String(data: data, encoding: .utf8)!)
+                            case .failure(let error):
+                                print(error)
+                        }
+                        do {
+                            let roundResult = try result.decoded() as NRLMatchResponse
+                            matchResults.matches.append(NRLMatch(from: roundResult, with: match))
+                        } catch {
+                            print(error)
+                            completion(nil)
+                        }
+                        if matchResults.matches.count == round.matches.count {
+                            roundArray.append(matchResults)
+                        }
+                        if roundArray.count == fixture.rounds.count {
+                            completion(roundArray)
+                        }
                     }
                 }
             }

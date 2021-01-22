@@ -60,4 +60,28 @@ struct NRLRound: Codable {
         self.roundEndDateTime = roundResponse.last?.startDateTime?.addingTimeInterval(TimeInterval(60 * 60 * 100))
         self.matches = matchArray
     }
+    
+    static func resultString(from rounds: [NRLRound]) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEEE, MMM d, HH:mm"
+        let header = "NRL RESULTS ------------------- \n\n"
+        let orderedRounds = rounds.sorted { $0.round < $1.round }
+        var roundStrings: String = ""
+        orderedRounds.forEach { round in
+            let roundHeader = "  ROUND: \(round.round)\n"
+            var matchStrings = ""
+            round.matches.forEach { match in
+                let startTime: String = match.startDateTime != nil ? formatter.string(from: match.startDateTime!) : "Unknown"
+                let temp = """
+                        Match Name: \(match.name)
+                        Home team: \(match.homeTeam.teamNickname)
+                        Away team: \(match.awayTeam.teamNickname)
+                        Score: \(match.results?.score ?? "")
+                """
+                matchStrings.append("\(temp)\n\n")
+            }
+            roundStrings.append("\(roundHeader)\n\(matchStrings)\n")
+        }
+        return "\(header)\(roundStrings)"
+    }
 }

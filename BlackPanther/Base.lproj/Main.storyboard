@@ -826,7 +826,7 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <progressIndicator maxValue="100" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="IlT-FQ-eYp">
+                            <progressIndicator maxValue="100" indeterminate="YES" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="IlT-FQ-eYp">
                                 <rect key="frame" x="40" y="285" width="376" height="20"/>
                             </progressIndicator>
                             <progressIndicator maxValue="100" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="u5u-WS-Tco">

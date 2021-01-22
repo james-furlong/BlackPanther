@@ -34,6 +34,10 @@ class ViewController: NSViewController {
     var nrlFixture: NRLFixture? = nil
     var nrlResults: [NRLRound]? = nil
     
+    var welcomeString: String {
+        "Welcome to the Admin Console\nCurrent Sport: \(currentSport.title)\n"
+    }
+    
     override func viewDidLoad() {
         self.sportOptions.removeAllItems()
         Sport.allCases.forEach { sport in
@@ -41,6 +45,7 @@ class ViewController: NSViewController {
         }
         super.viewDidLoad()
         textOutput = outputView.documentView as? NSTextView
+        outputText(welcomeString, appendText: false)
     }
     
     // MARK: - Actions
@@ -65,6 +70,8 @@ class ViewController: NSViewController {
     @IBAction func getFixtureTapped(_ sender: Any) {
         DispatchQueue.main.async {
             self.fixtureIndicatorBar.doubleValue = 0.0
+            self.fixtureIndicatorBar.isIndeterminate = true
+            self.fixtureIndicatorBar.startAnimation(self)
         }
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy"
@@ -73,32 +80,44 @@ class ViewController: NSViewController {
             case .NRL:
                 self.apiClient.getNrlFixture(year: year, comp: NRLComp.PremiershipMens) { fixture in
                     self.nrlFixture = fixture
+                    DispatchQueue.main.async {
+                        self.fixtureIndicatorBar.stopAnimation(self)
+                        let outputText = fixture != nil ? "**** Fixture succesfully retrieved ****" : "Something went wrong\n"
+                        self.outputText(outputText)
+                        self.fixtureIndicatorBar.isIndeterminate = false
+                        self.fixtureIndicatorBar.doubleValue = fixture != nil ? 100.0 : 0.0
+                    }
                 }
             case .BigBashCricket:
                 self.apiClient.getBigBashFixture(year: year) { fixture in
 //                    self.fixture = fixture
+                    DispatchQueue.main.async {
+                        self.fixtureIndicatorBar.doubleValue = 100.0
+                    }
                 }
             default: self.fixture = nil
-        }
-        DispatchQueue.main.async {
-            self.fixtureIndicatorBar.doubleValue = 100.0
         }
     }
     
     @IBAction func viewFixtureTapped(_ sender: Any) {
-        guard let fixture = self.nrlFixture else {
-            self.textOutput?.textColor = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
-            self.textOutput?.textStorage?.mutableString.setString("Fixture must be retrieved first")
-            return
+        switch currentSport {
+            case .NRL:
+                guard let fixture = self.nrlFixture else {
+                    self.outputText("Fixture must be retrieved first\n")
+                    return
+                }
+                
+                self.outputText(fixture.toString())
+            default:
+                return
         }
-        
-        self.textOutput?.textColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
-        self.textOutput?.textStorage?.mutableString.setString(fixture.toString())
     }
     
     @IBAction func getResultsTapped(_ sender: Any) {
         DispatchQueue.main.async {
             self.resultsIndicatorBar.doubleValue = 0.0
+            self.resultsIndicatorBar.isIndeterminate = true
+            self.resultsIndicatorBar.startAnimation(self)
         }
         switch currentSport {                
             case .BigBashCricket:
@@ -108,20 +127,35 @@ class ViewController: NSViewController {
                 }
             case .NRL:
                 guard let fixture = self.nrlFixture else { return }
-                let formatter = DateFormatter()
-                formatter.dateFormat = "yyyy"
-                let year: String = (fixtureYearTextField?.objectValue ?? formatter.string(from: Date())) as! String
-                let round: String = ""
-                let game: String = ""
+                DispatchQueue.main.async {
+//                    self.resultsIndicatorBar.an
+                }
                 self.apiClient.getNrlResults(fixture: fixture) { results in
                     self.nrlResults = results
+                    DispatchQueue.main.async {
+                        self.resultsIndicatorBar.stopAnimation(self)
+                        let outputText = results != nil ? "**** Results succesfully retrieved ****" : "Something went wrong\n"
+                        self.outputText(outputText)
+                        self.resultsIndicatorBar.isIndeterminate = false
+                        self.resultsIndicatorBar.doubleValue = results != nil ? 100.0 : 0.0
+                    }
+                    
                 }
             default: self.resultsArray = []
         }
     }
     
     @IBAction func showResultsTapped(_ sender: Any) {
-        //TODO: Implement this
+        switch currentSport {
+            case .NRL:
+                guard let results = self.nrlResults else {
+                    outputText("Results must be retrieved first\n")
+                    return
+                }
+                outputText(NRLRound.resultString(from: results))
+            default:
+                return 
+        }
     }
     
     @IBAction func getResultTapped(_ sender: Any) {
@@ -141,6 +175,16 @@ class ViewController: NSViewController {
     }
     
     // MARK: - Internal functions
+    
+    private func outputText(_ text: String, appendText: Bool = true) {
+        let formattedText: String = "\(text)\n"
+        if appendText {
+            self.textOutput?.textStorage?.mutableString.append(formattedText)
+            return
+        }
+        self.textOutput?.textStorage?.mutableString.setString(formattedText)
+        self.textOutput?.textColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+    }
     
     private func getCompletedRound(_ eventId: String, completion: @escaping (RoundResultResponse) -> (Void)) {
         let url = URL(string: "https://www.thesportsdb.com/api/v1/json/1/eventresults.php?id=\(eventId)")
