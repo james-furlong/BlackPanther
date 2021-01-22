@@ -7,10 +7,12 @@
 
 import Foundation
 
-struct NRLPlayer: Codable {
+struct NRLPlayerResponse: Decodable {
     let firstName: String
     let lastName: String
-    let teamNickName: String
     let position: String
-    let url: String
+    let playerId: Int?
+    let url: String?
+    let number: Int?
+    let isOnField: Bool?
 }

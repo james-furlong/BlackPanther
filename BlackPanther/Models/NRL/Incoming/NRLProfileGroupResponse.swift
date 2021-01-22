@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct NRLProfileGroup: Codable {
+struct NRLProfileGroupResponse: Decodable {
     let title: String
-    let profiles: [NRLPlayer]
+    let profiles: [NRLPlayerResponse]
 }

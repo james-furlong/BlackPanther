@@ -7,7 +7,6 @@
 
 import Foundation
 
-struct NRLPlayersResponse: Codable {
-    let profileGroups: [NRLProfileGroup]
-//    let isClubSite: Bool
+struct NRLPlayersResponse: Decodable {
+    let profileGroups: [NRLProfileGroupResponse]
 }
