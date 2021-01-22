@@ -26,7 +26,7 @@ class ViewController: NSViewController {
     private var textOutput: NSTextView? = nil
     private var currentSport: Sport = .NRL
     
-    var playerArray: [NRLPlayerResponse] = []
+    var playerArray: [NRLPlayer]? = nil
     var teamArray: [NRLTeam] = []
     var resultsArray: [RoundResult] = []
     var fixtureYear: String = ""
@@ -55,16 +55,44 @@ class ViewController: NSViewController {
     }
     
     @IBAction func getPlayersTapped(_ sender: Any) {
+        DispatchQueue.main.async {
+            self.playerIndicatorBar.doubleValue = 0.0
+            self.playerIndicatorBar.isIndeterminate = true
+            self.playerIndicatorBar.startAnimation(self)
+        }
         switch currentSport {
             case .NRL: self.apiClient.getNrlPlayers { players in
                 self.playerArray = players
+                DispatchQueue.main.async {
+                    self.playerIndicatorBar.stopAnimation(self)
+                    let outputText = players != nil ? "**** Players successfully retrieved ****" : "Something went wrong\n"
+                    self.outputText(outputText)
+                    self.playerIndicatorBar.isIndeterminate = false
+                    self.playerIndicatorBar.doubleValue = players != nil ? 100.0 : 0.0
+                }
             }
-            default: self.playerArray = []
+            default:
+                self.playerArray = []
+                DispatchQueue.main.async {
+                    self.playerIndicatorBar.stopAnimation(self)
+                }
         }
     }
     
     @IBAction func viewPlayersTapped(_ sender: NSButton) {
-        //TODO: Implement this
+        switch currentSport {
+            case .NRL:
+                guard let players = self.playerArray else {
+                    self.outputText("Fixture mus be retrieved first\n")
+                    return
+                }
+                
+                players.forEach { player in
+                    self.outputText(player.toString())
+                }
+            default:
+                return
+        }
     }
     
     @IBAction func getFixtureTapped(_ sender: Any) {
@@ -82,7 +110,7 @@ class ViewController: NSViewController {
                     self.nrlFixture = fixture
                     DispatchQueue.main.async {
                         self.fixtureIndicatorBar.stopAnimation(self)
-                        let outputText = fixture != nil ? "**** Fixture succesfully retrieved ****" : "Something went wrong\n"
+                        let outputText = fixture != nil ? "**** Fixture successfully retrieved ****" : "Something went wrong\n"
                         self.outputText(outputText)
                         self.fixtureIndicatorBar.isIndeterminate = false
                         self.fixtureIndicatorBar.doubleValue = fixture != nil ? 100.0 : 0.0

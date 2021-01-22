@@ -13,7 +13,7 @@ protocol ApiClientProtocols {
     // NRL
     func getNrlFixture(year: String, comp: NRLComp, completion: @escaping (NRLFixture?) -> ())
     func getNrlResults(fixture: NRLFixture, completion: @escaping ([NRLRound]?) -> ())
-    func getNrlPlayers(completion: @escaping ([NRLPlayerResponse]) -> ())
+    func getNrlPlayers(completion: @escaping ([NRLPlayer]?) -> ())
     
     // BigBash
     func getBigBashFixture(year: String, completion: @escaping (BigBashFixture?) -> ())
@@ -31,6 +31,8 @@ extension Result where Success == Data {
 
 class ApiClient: ApiClientProtocols {
     
+    private var nrlTeams: [NRLTeam] = []
+    
     // MARK: - NRL
     
     func getNrlFixture(year: String, comp: NRLComp, completion: @escaping (NRLFixture?) -> ()) {
@@ -45,10 +47,14 @@ class ApiClient: ApiClientProtocols {
                     self?.get(from: roundUrl) { result in
                         do {
                             let roundResponse = try result.decoded() as NRLFixtureResponse
+                            let teamResponse = try result.decoded() as NRLTeamResponse
                             roundArray.append(NRLRound(from: roundResponse))
-                        } catch {
+                            self?.nrlTeams = teamResponse.filterTeams.map { NRLTeam(from: $0) }
+                        }
+                        catch {
                             print(error)
                         }
+                        
                         if roundArray.count == rounds.count {
                             completion(NRLFixture(year: year, rounds: roundArray))
                         }
@@ -76,22 +82,19 @@ class ApiClient: ApiClientProtocols {
                 // crashing due to too many async calls
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
                     self.get(from: url) { result in
-                        switch result {
-                            case .success(let data):
-                                print(String(data: data, encoding: .utf8)!)
-                            case .failure(let error):
-                                print(error)
-                        }
                         do {
                             let roundResult = try result.decoded() as NRLMatchResponse
                             matchResults.matches.append(NRLMatch(from: roundResult, with: match))
-                        } catch {
+                        }
+                        catch {
                             print(error)
                             completion(nil)
                         }
+                        
                         if matchResults.matches.count == round.matches.count {
                             roundArray.append(matchResults)
                         }
+                        
                         if roundArray.count == fixture.rounds.count {
                             completion(roundArray)
                         }
@@ -101,8 +104,31 @@ class ApiClient: ApiClientProtocols {
         }
     }
     
-    func getNrlPlayers(completion: @escaping ([NRLPlayerResponse]) -> ()) {
-        
+    func getNrlPlayers(completion: @escaping ([NRLPlayer]?) -> ()) {
+        if self.nrlTeams.count > 0 {
+            var playerArray: [NRLPlayer] = []
+            var count: Int = 0
+            self.nrlTeams.forEach { team in
+                let url = "https://www.nrl.com/players/data?team=\(team.teamId)"
+                get(from: url) { result in
+                    count += 1
+                    do {
+                        let playerResult = try result.decoded() as NRLPlayersResponse
+                        playerArray.append(contentsOf: playerResult.profileGroups.first?.profiles.map { NRLPlayer(from: $0, team: team) } ?? [])
+                    }
+                    catch {
+                        print(error)
+                        completion(nil)
+                    }
+                    if count == self.nrlTeams.count {
+                        completion(playerArray)
+                    }
+                }
+            }
+        }
+        else {
+            completion(nil)
+        }
     }
     
     // MARK: - Big Bash League
@@ -113,7 +139,8 @@ class ApiClient: ApiClientProtocols {
             do {
                 let fixture = try result.decoded() as BigBashFixture
                 completion(fixture)
-            } catch {
+            }
+            catch {
                 print(error)
                 completion(nil)
             }
@@ -139,7 +166,8 @@ class ApiClient: ApiClientProtocols {
                     print(result)
                     let result = try result.decoded() as BigBashResult
                     results.append(result)
-                } catch {
+                }
+                catch {
                     print(error)
                     completion(nil)
                 }

@@ -108,6 +108,13 @@ struct NRLTeam: Codable {
         self.teamNickname = response.nickName
         self.teamPosition = nil
     }
+    
+    init(from response: NRLTeamResponse.NRLTeam) {
+        self.teamId = response.value
+        self.teamName = nil
+        self.teamNickname = response.name
+        self.teamPosition = nil
+    }
 }
 
 struct NRLMatchResult: Codable {
@@ -211,7 +218,7 @@ struct NRLEvent: Codable {
                     type: .Try,
                     time: bits.last ?? "",
                     playerName: playerName,
-                    playerId: response.awayTeam.players?.first { $0.firstName == bits[0] && $0.lastName == bits[1] }.map { $0.playerId } ?? 0
+                    playerId: response.awayTeam.players?.first { $0.firstName == bits[0] && $0.lastName == bits[1] }.map { $0.playerId ?? 0 } ?? 0
                 )
             )
             
