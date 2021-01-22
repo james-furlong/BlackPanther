@@ -14,6 +14,7 @@ protocol ApiClientProtocols {
     func getNrlFixture(year: String, comp: NRLComp, completion: @escaping (NRLFixture?) -> ())
     func getNrlResults(fixture: NRLFixture, completion: @escaping ([NRLRound]?) -> ())
     func getNrlPlayers(completion: @escaping ([NRLPlayer]?) -> ())
+    func getNrlResult(fixture: NRLFixture, round: Int, completion: @escaping (NRLRound?) -> ())
     
     // BigBash
     func getBigBashFixture(year: String, completion: @escaping (BigBashFixture?) -> ())
@@ -80,7 +81,7 @@ class ApiClient: ApiClientProtocols {
                 let url = "https://www.nrl.com\(match.matchUrl)data?"
                 // This delay is placed on each of the API call to prevent the API server from
                 // crashing due to too many async calls
-                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.2) {
                     self.get(from: url) { result in
                         do {
                             let roundResult = try result.decoded() as NRLMatchResponse
@@ -129,6 +130,39 @@ class ApiClient: ApiClientProtocols {
         else {
             completion(nil)
         }
+    }
+    
+    func getNrlResult(fixture: NRLFixture, round: Int, completion: @escaping (NRLRound?) -> ()) {
+        let rounds = fixture.rounds.filter { $0.round == round }
+        guard let round = rounds.first else { completion(nil); return }
+        var matchResults = NRLRound(
+            round: round.round,
+            roundTitle: round.roundTitle,
+            roundStartDateTime: round.roundStartDateTime,
+            roundEndDateTime: round.roundEndDateTime
+        )
+        round.matches.forEach { match in
+            let url = "https://www.nrl.com\(match.matchUrl)data?"
+            // This delay is placed on each of the API call to prevent the API server from
+            // crashing due to too many async calls
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.2) {
+                self.get(from: url) { result in
+                    do {
+                        let roundResult = try result.decoded() as NRLMatchResponse
+                        matchResults.matches.append(NRLMatch(from: roundResult, with: match))
+                    }
+                    catch {
+                        print(error)
+                        completion(nil)
+                    }
+                    
+                    if matchResults.matches.count == round.matches.count {
+                        completion(matchResults)
+                    }
+                }
+            }
+        }
+        
     }
     
     // MARK: - Big Bash League

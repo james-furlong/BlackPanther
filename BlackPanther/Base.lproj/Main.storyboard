@@ -862,36 +862,6 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="t0j-g6-CuL">
-                                <rect key="frame" x="225" y="147" width="60" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="GI0-Dm-6rl"/>
-                                    <constraint firstAttribute="width" constant="60" id="XdK-b7-G1P"/>
-                                </constraints>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="Game" drawsBackground="YES" id="xGY-2h-fi2">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                                <connections>
-                                    <action selector="fixtureYearAction:" target="XfG-lQ-9wD" id="glX-LI-Gc8"/>
-                                </connections>
-                            </textField>
-                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Yc1-cr-oKH">
-                                <rect key="frame" x="155" y="147" width="60" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="83o-Rv-xaa"/>
-                                    <constraint firstAttribute="width" constant="60" id="vQi-VL-Hgc"/>
-                                </constraints>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="Round" drawsBackground="YES" id="Usw-gr-3GR">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                                <connections>
-                                    <action selector="fixtureYearAction:" target="XfG-lQ-9wD" id="0A0-Fv-SsG"/>
-                                </connections>
-                            </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bRk-5q-GmL">
                                 <rect key="frame" x="38" y="71" width="8" height="15"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" id="6MC-Fc-ws0">
@@ -981,6 +951,21 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
+                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Yc1-cr-oKH">
+                                <rect key="frame" x="225" y="147" width="60" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="83o-Rv-xaa"/>
+                                    <constraint firstAttribute="width" constant="60" id="vQi-VL-Hgc"/>
+                                </constraints>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="Round" drawsBackground="YES" id="Usw-gr-3GR">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                                <connections>
+                                    <action selector="fixtureYearAction:" target="XfG-lQ-9wD" id="0A0-Fv-SsG"/>
+                                </connections>
+                            </textField>
                         </subviews>
                         <constraints>
                             <constraint firstItem="tGV-hm-CuP" firstAttribute="leading" secondItem="98M-Kf-SLr" secondAttribute="trailing" constant="20" id="1AA-xh-tdS"/>
@@ -1019,7 +1004,6 @@
                             <constraint firstItem="WXr-68-Qjs" firstAttribute="centerY" secondItem="0Yg-wC-Itz" secondAttribute="centerY" id="VGF-by-FjL"/>
                             <constraint firstItem="bRk-5q-GmL" firstAttribute="leading" secondItem="d5b-9c-3GO" secondAttribute="leading" id="W6B-r6-nI1"/>
                             <constraint firstItem="UjE-6i-jr3" firstAttribute="leading" secondItem="H0l-in-E8q" secondAttribute="trailing" constant="20" id="WRF-38-waI"/>
-                            <constraint firstItem="Yc1-cr-oKH" firstAttribute="centerY" secondItem="t0j-g6-CuL" secondAttribute="centerY" id="WYO-Xy-MvN"/>
                             <constraint firstItem="e1n-7S-qQW" firstAttribute="leading" secondItem="csh-Cp-sHZ" secondAttribute="trailing" constant="30" id="Wut-iA-Wu0"/>
                             <constraint firstItem="u5u-WS-Tco" firstAttribute="leading" secondItem="Qer-dr-RtJ" secondAttribute="leading" id="YL0-3T-dd6"/>
                             <constraint firstItem="zkd-as-GDn" firstAttribute="leading" secondItem="d5b-9c-3GO" secondAttribute="leading" id="Yk7-YT-ehF"/>
@@ -1030,22 +1014,21 @@
                             <constraint firstItem="d5b-9c-3GO" firstAttribute="leading" secondItem="Qer-dr-RtJ" secondAttribute="leading" id="cZF-hY-WRj"/>
                             <constraint firstItem="cKb-e8-PxA" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" id="ckD-tV-ANv"/>
                             <constraint firstItem="d5b-9c-3GO" firstAttribute="top" secondItem="u5u-WS-Tco" secondAttribute="bottom" constant="30" id="fWl-Mc-dvc"/>
-                            <constraint firstItem="t0j-g6-CuL" firstAttribute="leading" secondItem="Yc1-cr-oKH" secondAttribute="trailing" constant="10" id="fzl-tz-ZLt"/>
                             <constraint firstItem="9ct-Ln-28U" firstAttribute="leading" secondItem="XCO-Bj-BmJ" secondAttribute="leading" id="g5Q-tI-1n0"/>
                             <constraint firstItem="0Yg-wC-Itz" firstAttribute="centerY" secondItem="9ct-Ln-28U" secondAttribute="centerY" id="gIc-A6-n0O"/>
                             <constraint firstItem="csh-Cp-sHZ" firstAttribute="centerY" secondItem="hNz-85-sKN" secondAttribute="centerY" id="isc-ZA-Dnm"/>
-                            <constraint firstItem="nKE-wL-V0c" firstAttribute="leading" secondItem="t0j-g6-CuL" secondAttribute="trailing" constant="15" id="k2Y-90-wxk"/>
                             <constraint firstItem="vh4-Zg-aka" firstAttribute="leading" secondItem="eQf-XT-bdR" secondAttribute="leading" id="kG6-QB-3sA"/>
                             <constraint firstItem="cKb-e8-PxA" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="mlI-jq-iGG"/>
                             <constraint firstItem="tGV-hm-CuP" firstAttribute="centerY" secondItem="98M-Kf-SLr" secondAttribute="centerY" id="n3V-Rx-CJX"/>
                             <constraint firstItem="H0l-in-E8q" firstAttribute="centerY" secondItem="Qer-dr-RtJ" secondAttribute="centerY" id="o70-Cs-8M9"/>
                             <constraint firstItem="e1n-7S-qQW" firstAttribute="top" secondItem="ZAD-sN-Ey4" secondAttribute="top" id="oPT-Nq-xkh"/>
                             <constraint firstItem="vh4-Zg-aka" firstAttribute="top" secondItem="eQf-XT-bdR" secondAttribute="bottom" constant="10" id="ojm-3R-ATk"/>
-                            <constraint firstItem="t0j-g6-CuL" firstAttribute="centerY" secondItem="nKE-wL-V0c" secondAttribute="centerY" id="uAv-ss-M3o"/>
+                            <constraint firstItem="Yc1-cr-oKH" firstAttribute="centerY" secondItem="nKE-wL-V0c" secondAttribute="centerY" id="ri0-nL-P76"/>
                             <constraint firstItem="XCO-Bj-BmJ" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="40" id="uHr-Ch-DOC"/>
                             <constraint firstItem="h2U-oo-Gat" firstAttribute="centerY" secondItem="hNz-85-sKN" secondAttribute="centerY" id="uwA-Vh-3Of"/>
                             <constraint firstItem="UjE-6i-jr3" firstAttribute="trailing" secondItem="WXr-68-Qjs" secondAttribute="trailing" id="vMr-ix-oVO"/>
                             <constraint firstItem="0Yg-wC-Itz" firstAttribute="leading" secondItem="qCk-qs-l1T" secondAttribute="trailing" constant="15" id="xLM-lP-uZK"/>
+                            <constraint firstItem="nKE-wL-V0c" firstAttribute="leading" secondItem="Yc1-cr-oKH" secondAttribute="trailing" constant="15" id="xW4-tF-ERr"/>
                         </constraints>
                     </view>
                     <connections>
@@ -1054,7 +1037,6 @@
                         <outlet property="fixtureYearTextField" destination="qCk-qs-l1T" id="lzE-eh-fp8"/>
                         <outlet property="outputView" destination="e1n-7S-qQW" id="RRa-sq-Eb0"/>
                         <outlet property="playerIndicatorBar" destination="78G-wA-Txk" id="OnO-aI-Ybh"/>
-                        <outlet property="resultGameTextField" destination="t0j-g6-CuL" id="MMg-Ir-57I"/>
                         <outlet property="resultIndicatorBar" destination="zkd-as-GDn" id="oYY-wS-eIR"/>
                         <outlet property="resultRoundTextField" destination="Yc1-cr-oKH" id="Bxk-PL-OgR"/>
                         <outlet property="resultsIndicatorBar" destination="u5u-WS-Tco" id="VoI-2X-p28"/>

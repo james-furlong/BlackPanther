@@ -14,7 +14,6 @@ class ViewController: NSViewController {
     
     @IBOutlet weak var fixtureYearTextField: NSTextField?
     @IBOutlet weak var resultRoundTextField: NSTextField!
-    @IBOutlet weak var resultGameTextField: NSTextField!
     
     @IBOutlet weak var playerIndicatorBar: NSProgressIndicator!
     @IBOutlet weak var fixtureIndicatorBar: NSProgressIndicator!
@@ -33,6 +32,7 @@ class ViewController: NSViewController {
     var fixture: Fixture? = nil
     var nrlFixture: NRLFixture? = nil
     var nrlResults: [NRLRound]? = nil
+    var nrlRoundResult: NRLRound? = nil
     
     var welcomeString: String {
         "Welcome to the Admin Console\nCurrent Sport: \(currentSport.title)\n"
@@ -187,11 +187,44 @@ class ViewController: NSViewController {
     }
     
     @IBAction func getResultTapped(_ sender: Any) {
-        //TODO: Implement this
+        DispatchQueue.main.async {
+            self.resultIndicatorBar.doubleValue = 0.0
+            self.resultIndicatorBar.isIndeterminate = true
+            self.resultIndicatorBar.startAnimation(self)
+        }
+        switch currentSport {
+            case .NRL:
+                guard let fixture = self.nrlFixture else { return }
+                guard let round = Int(self.resultRoundTextField.stringValue) else {
+                    self.outputText("Round must be entered and must be a number")
+                    return
+                }
+                self.apiClient.getNrlResult(fixture: fixture, round: round) { result in
+                    self.nrlRoundResult = result
+                    DispatchQueue.main.async {
+                        self.resultIndicatorBar.stopAnimation(self)
+                        let outputText = result != nil ? "**** Result succesfully retrieved ****" : "Something went wrong\n"
+                        self.outputText(outputText)
+                        self.resultIndicatorBar.isIndeterminate = false
+                        self.resultIndicatorBar.doubleValue = result != nil ? 100.0 : 0.0
+                    }
+                }
+            default:
+                self.nrlRoundResult = nil
+        }
     }
     
     @IBAction func showResultTapped(_ sender: Any) {
-        //TODO: Implement this
+        switch currentSport {
+            case .NRL:
+                guard let result = self.nrlRoundResult else {
+                    outputText("Result must be retrieved first\n")
+                    return
+                }
+                outputText(result.toString())
+            default:
+                return
+        }
     }
     
     @IBAction func getStatsTapped(_ sender: Any) {
@@ -212,31 +245,5 @@ class ViewController: NSViewController {
         }
         self.textOutput?.textStorage?.mutableString.setString(formattedText)
         self.textOutput?.textColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
-    }
-    
-    private func getCompletedRound(_ eventId: String, completion: @escaping (RoundResultResponse) -> (Void)) {
-        let url = URL(string: "https://www.thesportsdb.com/api/v1/json/1/eventresults.php?id=\(eventId)")
-        var request = URLRequest(url: url!)
-        request.httpMethod = "GET"
-        request.setValue("Application/json", forHTTPHeaderField: "Content-Type")
-        request.timeoutInterval = 20
-        let session = URLSession.shared
-        session.dataTask(with: request) { (data, response, error) in
-            if let response = response {
-                print(response)
-            }
-            if let data = data {
-                do {
-                    let result = try JSONDecoder().decode(RoundResultResponse.self, from: data)
-                    completion(result)
-                } catch {
-                    print(error)
-                }
-            }
-        }.resume()
-    }
-    
-    private func displayError(_ message: String) {
-        // TODO: Add error text to output console
     }
 }

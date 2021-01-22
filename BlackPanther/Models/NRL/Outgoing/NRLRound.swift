@@ -61,6 +61,26 @@ struct NRLRound: Codable {
         self.matches = matchArray
     }
     
+    func toString() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEEE, MMM d, HH:mm"
+        let header = "NRL MAATCH RESULT ------------------- \n\n"
+        let orderedMatches: [NRLMatch] = matches.sorted { $0.startDateTime ?? Date() < $1.startDateTime ?? Date() }
+        var roundString: String = ""
+        orderedMatches.forEach { match in
+            let startTime: String = match.startDateTime != nil ? formatter.string(from: match.startDateTime!) : "Unknown"
+            let matchResult = """
+                        Match Name: \(match.name)
+                        Home team: \(match.homeTeam.teamNickname)
+                        Away team: \(match.awayTeam.teamNickname)
+                        Start time: \(startTime)
+                        Score: \(match.results?.score ?? "")
+            """
+            roundString.append("\(matchResult)\n\n")
+        }
+        return "\(header)\(roundString)"
+    }
+    
     static func resultString(from rounds: [NRLRound]) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEE, MMM d, HH:mm"
@@ -76,6 +96,7 @@ struct NRLRound: Codable {
                         Match Name: \(match.name)
                         Home team: \(match.homeTeam.teamNickname)
                         Away team: \(match.awayTeam.teamNickname)
+                        Start time: \(startTime)
                         Score: \(match.results?.score ?? "")
                 """
                 matchStrings.append("\(temp)\n\n")
