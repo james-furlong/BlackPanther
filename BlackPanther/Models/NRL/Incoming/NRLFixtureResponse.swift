@@ -8,15 +8,15 @@
 import Foundation
 
 struct NRLFixtureResponse: Decodable {
-    let fixtures: [NRLRoundResponse]
-    let filterCompetitions: [NRLFilterResponse]
-    let filterSeasons: [NRLFilterResponse]
-    let filterRounds: [NRLFilterResponse]
-    let filterTeams: [NRLFilterResponse]
-    let selectedCompetitionId: Int
-    let selectedSeasonId: Int
-    let selectedRoundId: Int
-    let selectedTeamId: Int
+    let fixtures: [NRLRoundResponse]?
+    let filterCompetitions: [NRLFilterResponse]?
+    let filterSeasons: [NRLFilterResponse]?
+    let filterRounds: [NRLFilterResponse]?
+    let filterTeams: [NRLFilterResponse]?
+    let selectedCompetitionId: Int?
+    let selectedSeasonId: Int?
+    let selectedRoundId: Int?
+    let selectedTeamId: Int?
 }
 
 struct NRLFilterResponse: Decodable {

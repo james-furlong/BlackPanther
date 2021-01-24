@@ -105,8 +105,9 @@ class ViewController: NSViewController {
         formatter.dateFormat = "yyyy"
         let year: String = (fixtureYearTextField?.objectValue ?? formatter.string(from: Date())) as! String
         switch currentSport {
-            case .NRL:
-                self.apiClient.getNrlFixture(year: year, comp: NRLComp.PremiershipMens) { fixture in
+            case .NRL, .NRLW, .StateOfOrigin, .StateOfOriginWomens:
+                guard let comp = currentSport.nrlComp else { return }
+                self.apiClient.getNrlFixture(year: year, comp: comp) { fixture in
                     self.nrlFixture = fixture
                     DispatchQueue.main.async {
                         self.fixtureIndicatorBar.stopAnimation(self)
@@ -129,7 +130,7 @@ class ViewController: NSViewController {
     
     @IBAction func viewFixtureTapped(_ sender: Any) {
         switch currentSport {
-            case .NRL:
+            case .NRL, .NRLW, .StateOfOrigin, .StateOfOriginWomens:
                 guard let fixture = self.nrlFixture else {
                     self.outputText("Fixture must be retrieved first\n")
                     return

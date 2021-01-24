@@ -13,8 +13,8 @@ protocol ApiClientProtocols {
     // NRL
     func getNrlFixture(year: String, comp: NRLComp, completion: @escaping (NRLFixture?) -> ())
     func getNrlResults(fixture: NRLFixture, completion: @escaping ([NRLRound]?) -> ())
-    func getNrlPlayers(completion: @escaping ([NRLPlayer]?) -> ())
     func getNrlResult(fixture: NRLFixture, round: Int, completion: @escaping (NRLRound?) -> ())
+    func getNrlPlayers(completion: @escaping ([NRLPlayer]?) -> ())
     
     // BigBash
     func getBigBashFixture(year: String, completion: @escaping (BigBashFixture?) -> ())
@@ -42,18 +42,26 @@ class ApiClient: ApiClientProtocols {
             do {
                 var roundArray = [NRLRound]()
                 let initialData = try result.decoded() as NRLFixtureResponse
-                let rounds: [Int] = initialData.filterRounds.map { $0.value }
+                let rounds: [Int] = initialData.filterRounds?.map { $0.value } ?? []
                 for round in rounds {
                     let roundUrl = "https://www.nrl.com/draw/data?competition=\(comp.rawValue)&season=\(year)&round=\(round)"
                     self?.get(from: roundUrl) { result in
-                        do {
-                            let roundResponse = try result.decoded() as NRLFixtureResponse
-                            let teamResponse = try result.decoded() as NRLTeamResponse
-                            roundArray.append(NRLRound(from: roundResponse))
-                            self?.nrlTeams = teamResponse.filterTeams.map { NRLTeam(from: $0) }
-                        }
-                        catch {
-                            print(error)
+                        switch result {
+                            case .success(let data):
+                                print(String(data: data, encoding: .utf8)!)
+                                do {
+//                                    let object = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
+//                                    if object.keys.count < 1 { return }
+                                    let roundResponse = try result.decoded() as NRLFixtureResponse
+                                    let teamResponse = try result.decoded() as NRLTeamResponse
+                                    roundArray.append(NRLRound(from: roundResponse))
+                                    self?.nrlTeams = teamResponse.filterTeams?.map { NRLTeam(from: $0) } ?? []
+                                }
+                                catch {
+                                    print(error)
+                                }
+                            case.failure(let error):
+                                print("ERROR: \(error)")
                         }
                         
                         if roundArray.count == rounds.count {

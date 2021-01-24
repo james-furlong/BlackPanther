@@ -12,5 +12,5 @@ struct NRLTeamResponse: Decodable {
         let name: String
         let value: Int
     }
-    let filterTeams: [NRLTeam]
+    let filterTeams: [NRLTeam]?
 }

@@ -9,28 +9,38 @@ import Foundation
 
 enum Sport: String, CaseIterable, Codable {
     case NRL
+    case NRLW
+    case StateOfOrigin
+    case StateOfOriginWomens
     case AFL
+    case AFLW
     case BigBashCricket
+    case BigBashWomens
     case TestCricket
     case EPL
-    
-    var leagueId: String {
-        switch self {
-            case .NRL: return "4416"
-            case .AFL: return "4456"
-            case .BigBashCricket: return "4461"
-            case .TestCricket: return "4844"
-            case .EPL: return "4328"
-        }
-    }
     
     var title: String {
         switch self {
             case .NRL: return "NRL"
+            case .NRLW: return "NRLW"
+            case .StateOfOrigin: return "State of Origin - Mens"
+            case .StateOfOriginWomens: return "State of Origin - Womens"
             case .AFL: return "AFL"
-            case .BigBashCricket: return "Big Bash"
+            case .AFLW: return "AFLW"
+            case .BigBashCricket: return "Big Bash Cricker - Mens"
+            case .BigBashWomens: return "Big Bash Cricket - Womens"
             case .TestCricket: return "Test Cricket"
             case .EPL: return "EPL"
+        }
+    }
+    
+    var nrlComp: NRLComp? {
+        switch self {
+            case .NRL: return .PremiershipMens
+            case .NRLW: return .PremiershipWomens
+            case .StateOfOrigin: return .StateOfOriginMens
+            case .StateOfOriginWomens: return .StateOfOriginWomens
+            default: return nil
         }
     }
     
